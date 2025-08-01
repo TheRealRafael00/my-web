@@ -1439,6 +1439,24 @@ document.addEventListener("visibilitychange", function () {
   }
 });
 </script>
+   <script>
+document.addEventListener("DOMContentLoaded", function () {
+  const ua = navigator.userAgent.toLowerCase();
+
+  // Deteksi jika bukan perangkat mobile
+  const isMobile = /android|iphone|ipad|ipod|opera mini|iemobile|mobile/.test(ua);
+
+  // Deteksi jika mode desktop diaktifkan di browser Android
+  const isDesktopMode = window.innerWidth > 768 && /android/.test(ua);
+
+  if (!isMobile || isDesktopMode) {
+    // Blokir akses: tampilkan alert lalu redirect ke halaman penolakan atau blank
+    alert("Website ini hanya dapat diakses melalui perangkat HP (mobile) dalam mode normal. Silakan nonaktifkan mode desktop atau gunakan HP.");
+    document.body.innerHTML = ""; // Kosongkan halaman
+    window.location.href = "https://www.google.com"; // Redirect opsional
+  }
+});
+   </script>
 <script>
 document.addEventListener("DOMContentLoaded", function () {
   const menuToggle = document.querySelector(".menu-toggle");
