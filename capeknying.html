@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>about me</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      width: 100%;
+      min-height: 100vh;
+      font-family: Arial, sans-serif;
+      overflow-x: hidden;
+      overflow-y: auto;
+      color: white;
+      font-weight: bold;
+      position: relative;
+      background: black !important;
+    }
+
+    body.loaded::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-image: url('https://files.catbox.moe/wgf1qv.jpeg');
+      background-size: cover;
+      background-position: center;
+      z-index: 0;
+      opacity: 1;
+      pointer-events: none;
+    }
+
+    #start-button {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 20px 40px;
+      font-size: 1.5rem;
+      color: #fff;
+      background-color: #111;
+      border: 2px solid #0ff;
+      border-radius: 10px;
+      box-shadow: 0 0 20px #0ff;
+      cursor: pointer;
+      z-index: 10000;
+    }
+
+    #loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #000;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+
+    .progress-container {
+      width: 60%;
+      height: 20px;
+      border: 2px solid #9df;
+      border-radius: 20px;
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      width: 0%;
+      height: 100%;
+      background-color: #9df;
+      transition: width 0.3s ease;
+    }
+
+    .loading-text {
+      color: white;
+      font-size: 1.5rem;
+      animation: blink 1.2s infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    .badge-bar {
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      width: 100%;
+      overflow-x: auto;
+      overflow-y: hidden;
+      display: none;
+      padding: 10px 0;
+      gap: 15px;
+      justify-content: flex-start;
+      scroll-behavior: smooth;
+      background-color: #000;
+      border-bottom: 2px solid #9df;
+      animation: fadeInBar 1s ease forwards;
+    }
+
+    .badge-bar::-webkit-scrollbar {
+      display: none;
+    }
+
+    .badge-item {
+      flex: 0 0 auto;
+      min-width: 48px;
+      height: 48px;
+      background-color: #111;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 10px #0ff;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .badge-item:hover {
+      transform: scale(1.1);
+    }
+
+    .badge-item img {
+      width: 24px;
+      height: 24px;
+    }
+
+    @keyframes fadeInBar {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    #profile-container {
+      width: 90%;
+      max-width: 1000px;
+      margin: 50px auto;
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 2rem;
+      color: white;
+      font-size: 1rem;
+      line-height: 1.6;
+      border-radius: 20px;
+      box-shadow: 0 0 30px rgba(0, 255, 255, 0.4);
+      font-family: Arial, sans-serif;
+      font-weight: bold;
+      text-shadow: 1px 1px 2px #000;
+      display: none;
+      animation: fadeInProfile 2s ease-in-out forwards;
+      position: relative;
+      z-index: 1;
+    }
+
+    #project-container {
+      width: 90%;
+      max-width: 1000px;
+      margin: 50px auto;
+      border: 2px solid #0ff;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 0 30px rgba(0, 255, 255, 0.4);
+      background-color: rgba(0, 0, 0, 0.6);
+      font-family: Arial, sans-serif;
+      font-weight: bold;
+      text-shadow: 1px 1px 2px #000;
+      display: none;
+      animation: fadeInProfile 2s ease-in-out forwards;
+      position: relative;
+      z-index: 1;
+    }
+
+    .project-title {
+      text-align: center;
+      font-size: 1.8rem;
+      padding: 1rem 0;
+      border-bottom: 2px solid #0ff;
+    }
+
+    .project-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      width: 100%;
+      aspect-ratio: 1 / 2;
+    }
+
+    .project-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    @keyframes fadeInProfile {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .running-banner {
+      position: fixed;
+      bottom: 15px;
+      left: 0;
+      width: 100%;
+      background-color: #000;
+      box-shadow: 0 0 10px #00ffff;
+      overflow: hidden;
+      z-index: 9999;
+      padding: 5px 0;
+    }
+
+    .running-text {
+      display: inline-block;
+      white-space: nowrap;
+      color: limegreen;
+      font-weight: bold;
+      font-size: 14px;
+      padding-left: 100%;
+      animation: scroll-left 20s linear infinite;
+    }
+
+    @keyframes scroll-left {
+      0% { transform: translateX(0%); }
+      100% { transform: translateX(-100%); }
+    }
+
+    #video-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      z-index: 9998;
+      display: none;
+      background: black;
+    }
+
+    .fade-out {
+      animation: fadeOut 2s forwards;
+    }
+
+    @keyframes fadeOut {
+      to {
+        opacity: 0;
+        visibility: hidden;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<button id="start-button">MASUK</button>
+
+<div id="loading-screen">
+  <div class="progress-container">
+    <div class="progress-bar" id="progress-bar"></div>
+  </div>
+  <div class="loading-text" id="loading-text">LOADING 0%</div>
+</div>
+
+<audio id="loading-audio" src="o.mp3"></audio>
+<video id="video-bg" preload="auto" playsinline></video>
+
+<div class="badge-bar" id="badge-bar">
+  <a class="badge-item" href="https://www.tiktok.com/@if.no.username" target="_blank"><img src="https://files.catbox.moe/hqh7o5.png"/></a>
+  <a class="badge-item" href="https://t.me/mumyzR" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png"/></a>
+  <a class="badge-item" href="https://chat.whatsapp.com/KUxrCDaR8viAVqLvfVM8GI?mode=ac_t" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/124/124034.png"/></a>
+  <a class="badge-item" href="https://sites.google.com/view/raffael-portofolio/halaman-muka" target="_blank"><img src="https://files.catbox.moe/hubjcl.jpeg"/></a>
+  <a class="badge-item" href="https://ell-about.blogspot.com/2025/08/about-raffael.html" target="_blank"><img src="https://www.blogger.com/favicon.ico"/></a>
+  <a class="badge-item" href="https://medium.com/@privacyisdignity/raffael-putra-hermawan-f4989a5c0df2" target="_blank"><img src="https://files.catbox.moe/l11fxd.png"/></a>
+  <a class="badge-item" href="https://www.linkedin.com/in/raffael-putra-hermawan-b6a626367?originalSubdomain=id" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/174/174857.png"/></a>
+  <a class="badge-item" href="https://hackers-shop.vercel.app/" target="_blank"><img src="https://files.catbox.moe/wszqh5.png"/></a>
+</div>
+
+<div id="profile-container">
+  <p>
+    Perkenalkan, nama saya <strong>Raffael Putra Hermawan</strong>. Biasa dipanggil <strong>El</strong> atau <strong>Rafa</strong>. Saya berusia 15 tahun dan saat ini duduk di bangku kelas <strong>X.3</strong> SMAN 14 Depok.
+    <br><br>
+    Saya telah menyelesaikan <strong>12 sertifikat</strong> course resmi dari berbagai platform pembelajaran online seperti <em>Cursa, ArcX, BisaAI, Simplilearn, Cisco Networking Academy, ISC2, IBM SkillsBuild</em>, dan <em>CyberAcademy</em>.
+    <br><br>
+    Keahlian saya meliputi bidang:
+    <br><strong>Security Principles, Business Continuity & Disaster Recovery, Network Security, Access Controls, Security Operations, Threat Detection, Security Automation, Compliance, Cryptography, Cyber Attack, Cyber Risk Management, Incident Response, Information Security, Threat Analysis, Vulnerability Management, Kali Linux, Social Engineering, Cloud & IoT Security, Report Writing, Ethical Hacking</strong>, dan banyak lagi.
+    <br><br>
+    Saya juga mengembangkan tiga proyek open-source di GitHub yang bernama <code>gwi-nam</code>, <code>cwabs</code>, dan <code>moonjacking</code> untuk membantu pemula dalam memahami dan mempraktikkan keamanan siber secara langsung.
+    <br><br>
+    Di luar itu, saya aktif membagikan edukasi seputar dunia cybersecurity melalui TikTok dan komunitas WhatsApp pribadi saya.
+    <br><br>
+    Cita-cita saya adalah menjadi spesialis cybersecurity di <strong>istana negara Amerika Serikat</strong> atau menjadi bagian dari tim keamanan siber di <strong>TNI–POLRI</strong>.
+  </p>
+</div>
+
+<div id="project-container">
+  <h2 class="project-title">FOTO PROJECT</h2>
+  <div class="project-grid">
+    <img src="https://files.catbox.moe/tfnn7q.jpg" alt="Project 1" class="project-img">
+    <img src="https://files.catbox.moe/0nrmgh.jpg" alt="Project 2" class="project-img">
+    <img src="https://files.catbox.moe/o9tduh.jpg" alt="Project 3" class="project-img">
+    <img src="https://files.catbox.moe/w1zd3q.jpg" alt="Project 4" class="project-img">
+  </div>
+</div>
+
+<div class="running-banner">
+  <div class="running-text">
+    halaman ini hanya berisi semua informasi tentang saya, dilarang mengcopy, mengambil, dan menggunakan codingan ataupun apapun yang ada disini tanpa izin!
+  </div>
+</div>
+
+<script>
+  const progressBar = document.getElementById('progress-bar');
+  const loadingText = document.getElementById('loading-text');
+  const loadingScreen = document.getElementById('loading-screen');
+  const audio = document.getElementById('loading-audio');
+  const startButton = document.getElementById('start-button');
+  const profileContainer = document.getElementById('profile-container');
+  const badgeBar = document.getElementById('badge-bar');
+  const video = document.getElementById('video-bg');
+  const projectContainer = document.getElementById('project-container');
+
+  video.src = 'ya.mp4';
+
+  startButton.addEventListener('click', () => {
+    startButton.style.display = 'none';
+    loadingScreen.style.display = 'flex';
+    audio.play();
+    video.load();
+    startLoading();
+  });
+
+  function startLoading() {
+    let percent = 0;
+    const totalDuration = 16000;
+    const intervalTime = 100;
+    const steps = totalDuration / intervalTime;
+    const increment = 100 / steps;
+
+    let interval = setInterval(() => {
+      percent += increment;
+      if (percent >= 100) {
+        percent = 100;
+        clearInterval(interval);
+
+        progressBar.style.width = '100%';
+        loadingText.textContent = 'LOADING 100%';
+
+        setTimeout(() => {
+          loadingScreen.style.transition = 'opacity 1s';
+          loadingScreen.style.opacity = 0;
+
+          setTimeout(() => {
+            loadingScreen.style.display = 'none';
+            if (video.readyState >= 3) {
+              playIntroVideo();
+            } else {
+              const checkReady = setInterval(() => {
+                if (video.readyState >= 3) {
+                  clearInterval(checkReady);
+                  playIntroVideo();
+                }
+              }, 500);
+            }
+          }, 1000);
+        }, 1000);
+      } else {
+        progressBar.style.width = percent + '%';
+        loadingText.textContent = `LOADING ${Math.floor(percent)}%`;
+      }
+    }, intervalTime);
+  }
+
+  function playIntroVideo() {
+    video.style.display = 'block';
+    video.play();
+    video.onended = () => {
+      video.classList.add('fade-out');
+      setTimeout(() => {
+        video.style.display = 'none';
+        document.body.classList.add('loaded');
+        badgeBar.style.display = 'flex';
+        profileContainer.style.display = 'block';
+        projectContainer.style.display = 'block';
+      }, 2000);
+    };
+  }
+
+  document.addEventListener('copy', function (e) {
+    e.preventDefault();
+    if (e.clipboardData) {
+      e.clipboardData.setData('text/plain', 'you are hacked by civilians');
+    } else if (window.clipboardData) {
+      window.clipboardData.setData('Text', 'you are hacked by civilians');
+    }
+  });
+</script>
+
+</body>
+</html>
