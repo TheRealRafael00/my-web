@@ -1,24 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-
+  
   <url>
-    <loc>https://hackers-shop.vercel.app/</loc>
-    <lastmod>2025-08-10</lastmod>
-    <changefreq>daily</changefreq>
+    <loc>https://hackers-shop.vercel.app/index.html</loc>
+    <lastmod>2025-08-11</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
 
   <url>
-    <loc>https://hackers-shop.vercel.app/capeknying.html</loc>
-    <lastmod>2025-08-10</lastmod>
-    <changefreq>monthly</changefreq>
+    <loc>https://hackers-shop.vercel.app/home.html</loc>
+    <lastmod>2025-08-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://hackers-shop.vercel.app/produk.html</loc>
+    <lastmod>2025-08-11</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://hackers-shop.vercel.app/code.html</loc>
-    <lastmod>2025-08-10</lastmod>
-    <changefreq>monthly</changefreq>
+    <loc>https://hackers-shop.vercel.app/portofolio.html</loc>
+    <lastmod>2025-08-11</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
