@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Produk Cybersecurity</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Creepster&display=swap');
+  html, body {
+    margin: 0;
+    height: 100%;
+    font-family: 'Share Tech Mono', monospace;
+    color: white;
+  }
+  body {
+    background: linear-gradient(to bottom, #000000, #000000);
+    background-size: cover;
+    background-attachment: fixed;
+    transition: background 2s linear;
+    position: relative;
+  }
+  #starsCanvas {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 0;
+    pointer-events: none;
+    display: none;
+  }
+  .menu-btn {
+    position: fixed;
+    top: 12px;
+    left: 20px;
+    cursor: pointer;
+    z-index: 1002;
+    height: 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    user-select: none;
+  }
+  .menu-btn div {
+    width: 32px;
+    height: 4px;
+    background: white;
+    margin: 4px 0;
+    border-radius: 2px;
+    box-shadow: 0 0 8px rgba(173, 216, 230, 0.9);
+    transition: 0.4s;
+  }
+  .menu-btn:active {
+    transform: scale(0.9) rotate(-5deg);
+    filter: drop-shadow(0 0 12px rgba(173, 216, 230, 0.9));
+    transition: all 0.2s ease;
+  }
+  .side-menu {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: rgba(0,0,0,0.92);
+    backdrop-filter: blur(6px);
+    box-shadow: 2px 0 15px rgba(0,0,0,0.5);
+    transition: left 0.4s ease;
+    z-index: 1003;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .side-menu.show { left: 0; }
+  .menu-item {
+    padding: 12px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    text-shadow: 0 0 6px rgba(255,255,255,0.8);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    user-select: none;
+  }
+  .menu-item:hover { transform: scale(1.05) translateX(4px); }
+  .active-red { box-shadow: 0 0 15px rgba(255, 60, 60, 0.9); }
+  .active-blue { box-shadow: 0 0 15px rgba(173, 216, 230, 0.9); }
+  .menu-item:active {
+    transform: scale(0.95) rotate(-1deg);
+    box-shadow: 0 0 20px rgba(255,255,255,0.9);
+  }
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.3);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+    z-index: 1001;
+  }
+  .overlay.show {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .menu-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 20px;
+    gap: 10px;
+  }
+  .menu-image img {
+    max-width: 45%; 
+    height: auto;
+    pointer-events: none;
+    filter: drop-shadow(0 0 10px rgba(173, 216, 230, 0.8));
+  }
+  .graffiti-text {
+    font-family: 'Creepster', cursive;
+    font-size: 1.8rem;
+    font-weight: bold;
+    background: linear-gradient(90deg, #ff0000, #ff9900);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow:
+      0 0 6px rgba(255,0,0,0.7),
+      0 0 14px rgba(255,100,0,0.5),
+      0 0 20px rgba(255,150,0,0.3);
+    animation: neonMove 3s linear infinite;
+    letter-spacing: 2px;
+    user-select: none;
+  }
+  @keyframes neonMove {
+    0% { background-position: 0% center; }
+    50% { background-position: 100% center; }
+    100% { background-position: 0% center; }
+  }
+  
+  .products-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    justify-items: center;
+    padding: 80px 20px 20px;
+    position: relative;
+    z-index: 1;
+  }
+  .product {
+    background: rgba(20, 20, 20, 0.9);
+    border-radius: 12px;
+    box-shadow: 0 0 12px rgba(0, 255, 170, 0.5);
+    overflow: hidden;
+    width: 250px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    position: relative;
+  }
+  /* Container utama */
+/* === RUNNING TEXT HACKER === */
+.running-text-container {
+  position: fixed;
+  bottom: 20px; /* jarak dari bawah biar nggak mepet */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 85%; /* biar nggak mentok kiri-kanan */
+  background: rgba(0, 0, 0, 0.78);
+  border: 2px solid #00ffaa;
+  border-radius: 10px;
+  padding: 6px 15px;
+  box-shadow: 0 0 18px rgba(0, 255, 170, 0.6), inset 0 0 12px rgba(0, 255, 170, 0.3);
+  display: flex;
+  align-items: center;
+  overflow: hidden; /* penting untuk motong teks */
+  z-index: 900; /* lebih rendah dari menu (1003) */
+  transition: opacity 0.4s ease;
+}
+.running-text-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Auto-hide saat menu dibuka */
+.side-menu.show ~ .running-text-container {
+  opacity: 0;
+  pointer-events: none;
+}
+/* Jarak bawah sebelum section baru */
+/* === Section Tambahan === */
+.extra-section {
+  margin-top: 60px;
+  text-align: center;
+}
+
+.extra-section h2 {
+  font-family: 'Share Tech Mono', monospace;
+  color: #00ffaa;
+  text-shadow: 0 0 5px #00ffaa, 0 0 10px #00ffe0;
+  margin-bottom: 20px;
+}
+
+/* Container badge */
+.badge-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+}
+
+/* Badge ala GitHub + tema hacker */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.85rem;
+  font-weight: bold;
+  color: #00ffaa;
+  background: linear-gradient(145deg, #111, #222);
+  border: 1px solid #00ffaa;
+  border-radius: 20px;
+  box-shadow: inset 0 0 6px rgba(0, 255, 170, 0.3), 0 0 8px rgba(0, 255, 170, 0.4);
+  transition: all 0.3s ease;
+}
+
+.badge:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 12px rgba(0, 255, 170, 0.9), 0 0 20px rgba(0, 255, 170, 0.7);
+}
+/* Wrapper ikon biar bisa "memotong" teks */
+.sword-wrapper {
+  position: relative;
+  flex-shrink: 0;
+  width: 40px; /* space untuk pedang + buffer potong teks */
+  height: 28px;
+  background: rgba(0, 0, 0, 0.78); /* warna sama dengan container */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2; /* di atas teks */
+}
+
+/* SVG pedang */
+.sword-icon {
+  width: 28px;
+  height: 28px;
+  fill: #00ffaa;
+  filter: drop-shadow(0 0 5px #00ffaa) drop-shadow(0 0 10px #00ffe0);
+}
+
+/* Area teks */
+.text-area {
+  flex: 1;
+  overflow: hidden; /* potong teks saat nyentuh pedang */
+  position: relative;
+}
+
+/* Teks berjalan */
+.running-text {
+  white-space: nowrap;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.95rem;
+  font-weight: bold;
+  color: #00ffaa;
+  text-shadow: 0 0 5px #00ffaa, 0 0 12px #00ffe0;
+  animation: scrollText 40s linear infinite; /* pelan dan looping */
+  display: inline-block;
+}
+
+@keyframes scrollText {
+  0%   { transform: translateX(100%); }   /* mulai dari luar kanan */
+  100% { transform: translateX(-100%); }  /* geser ke luar kiri */
+}
+  .product:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 0 20px rgba(0, 255, 170, 0.8);
+  }
+  .product img {
+    display: block;
+    max-width: 100%;
+    max-height: 250px;
+    width: auto;
+    height: auto;
+    margin: 0 auto;
+  }
+  .product-name {
+    font-size: 1.1rem;
+    margin: 10px 0 5px;
+    background: linear-gradient(90deg, #00ffaa, #00ffe0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: bold;
+  }
+  .product-price {
+    font-size: 1rem;
+    color: #00ffaa;
+    margin-bottom: 10px;
+  }
+  .product-details {
+    max-height: 0;
+    overflow: hidden;
+    background: rgba(15, 15, 15, 0.95);
+    transition: max-height 0.5s ease;
+    padding: 0 10px;
+    font-size: 0.95rem;
+    color: #ddd;
+    border-top: 1px solid rgba(0, 255, 170, 0.4);
+  }
+  .footer {
+  margin-top: 50px;
+  padding: 15px;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.8rem;
+  color: #ff4444;
+  background: rgba(0, 0, 0, 0.85);
+  border-top: 2px solid #ff4444;
+  text-align: center;
+  text-shadow: 0 0 5px #ff4444;
+}
+  .product.active .product-details {
+    padding: 10px;
+    max-height: 500px;
+  }
+  .buy-button {
+    margin-top: 10px;
+    padding: 8px 16px;
+    background: linear-gradient(90deg, #00ffaa, #00ffe0);
+    border: none;
+    color: black;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .buy-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 10px rgba(0,255,170,0.8);
+  }
+</style>
+</head>
+<body>
+
+<canvas id="starsCanvas"></canvas>
+
+<div class="menu-btn" onclick="toggleMenu()">
+  <div></div>
+  <div></div>
+  <div></div>
+</div>
+
+<div class="overlay" id="overlay" onclick="closeMenu()"></div>
+
+<div class="side-menu" id="sideMenu">
+  <div>
+    <div id="menuHome" class="menu-item active-red">🏠 Home</div>
+    <div id="menuPortfolio" class="menu-item active-red">📁 Portfolio</div>
+    <div id="menuProduk" class="menu-item active-blue">📦 Produk</div>
+  </div>
+  <div class="menu-image">
+    <img src="i.png" alt="H">
+    <span class="graffiti-text">CIVILIANS</span>
+  </div>
+</div>
+
+<div class="products-container" id="products"></div>
+
+<div class="extra-section" id="extraSection">
+  <h2>Jasa & Lainnya</h2>
+  <div class="badge-container">
+    <span class="badge">HTML</span>
+    <span class="badge">CSS</span>
+    <span class="badge">JavaScript</span>
+    <span class="badge">Python</span>
+    <span class="badge">Termux</span>
+    <span class="badge">Bash</span>
+    <span class="badge">Kali Linux</span>
+    <span class="badge">Arduino IDE</span>
+  </div>
+</div>
+
+<div class="footer">
+  &copy; 2025. Semua hak cipta dilindungi. Dilarang keras menyalin, mengambil, atau mereproduksi 
+  konten dari website ini dalam bentuk apapun tanpa izin tertulis.
+</div>
+
+<script>
+  const palettes = [
+    ['#0f2027', '#203a43', '#2c5364'],
+    ['#f7971e', '#ffd200', '#2b1e17'],
+    ['#373b44', '#4286f4', '#000000'],
+    ['#141E30', '#243B55', '#000000'],
+    ['#1e3c72', '#2a5298', '#000000'],
+    ['#000046', '#1CB5E0', '#000000'],
+    ['#ff6e7f', '#bfe9ff', '#3b3029'],
+    ['#03001e', '#7303c0', '#ec38bc'], // galaxy space theme
+    ['#ff9966', '#ff5e62', '#3b3029'],
+    ['#2b5876', '#4e4376', '#000000']
+  ];
+  const galaxyIndex = 7;
+
+  let current = 0;
+  let next = 1;
+  let step = 0;
+  const speed = 0.0015;
+  const starsCanvas = document.getElementById('starsCanvas');
+  const ctx = starsCanvas.getContext('2d');
+  let stars = [];
+
+  function createStars(count) {
+    stars = [];
+    for (let i = 0; i < count; i++) {
+      stars.push({
+        x: Math.random() * starsCanvas.width,
+        y: Math.random() * starsCanvas.height,
+        radius: Math.random() * 1.5,
+        speed: Math.random() * 0.5 + 0.2
+      });
+    }
+  }
+
+  function drawStars() {
+    ctx.clearRect(0, 0, starsCanvas.width, starsCanvas.height);
+    ctx.fillStyle = 'white';
+    stars.forEach(star => {
+      ctx.beginPath();
+      ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+      ctx.fill();
+      star.y += star.speed;
+      if (star.y > starsCanvas.height) {
+        star.y = 0;
+        star.x = Math.random() * starsCanvas.width;
+      }
+    });
+  }
+
+  function resizeCanvas() {
+    starsCanvas.width = window.innerWidth;
+    starsCanvas.height = window.innerHeight;
+    createStars(150);
+  }
+  window.addEventListener('resize', resizeCanvas);
+  resizeCanvas();
+
+  function animateStars() {
+    drawStars();
+    requestAnimationFrame(animateStars);
+  }
+
+  function lerpColor(a, b, t) {
+    const ah = parseInt(a.replace(/#/g, ''), 16),
+          ar = ah >> 16, ag = (ah >> 8) & 0xff, ab = ah & 0xff,
+          bh = parseInt(b.replace(/#/g, ''), 16),
+          br = bh >> 16, bg = (bh >> 8) & 0xff, bb = bh & 0xff,
+          rr = ar + t * (br - ar),
+          rg = ag + t * (bg - ag),
+          rb = ab + t * (bb - ab);
+    return `rgb(${Math.round(rr)},${Math.round(rg)},${Math.round(rb)})`;
+  }
+
+  function updateGradient() {
+    step += speed;
+    if (step >= 1) {
+      step %= 1;
+      current = next;
+      next = (next + 1) % palettes.length;
+    }
+    const c0 = lerpColor(palettes[current][0], palettes[next][0], step);
+    const c1 = lerpColor(palettes[current][1], palettes[next][1], step);
+    const c2 = lerpColor(palettes[current][2], palettes[next][2], step);
+    document.body.style.background = `linear-gradient(to bottom, ${c0}, ${c1} 50%, ${c2} 100%) fixed`;
+
+    if (current === galaxyIndex || next === galaxyIndex) {
+      starsCanvas.style.display = 'block';
+    } else {
+      starsCanvas.style.display = 'none';
+    }
+
+    requestAnimationFrame(updateGradient);
+  }
+  updateGradient();
+  animateStars();
+
+  function toggleMenu() {
+    document.getElementById('sideMenu').classList.toggle('show');
+    document.getElementById('overlay').classList.toggle('show');
+  }
+  function closeMenu() {
+    document.getElementById('sideMenu').classList.remove('show');
+    document.getElementById('overlay').classList.remove('show');
+  }
+  document.getElementById("menuHome").addEventListener("click", () => {
+    clickEffect("menuHome");
+    setTimeout(()=>{ window.location.href = "home.html"; }, 300);
+  });
+  document.getElementById("menuPortfolio").addEventListener("click", () => {
+    clickEffect("menuPortfolio");
+    setTimeout(()=>{ window.location.href = "portofolio.html"; }, 300);
+  });
+  document.getElementById("menuProduk").addEventListener("click", () => {
+    clickEffect("menuProduk");
+  });
+  function clickEffect(id){
+    const el = document.getElementById(id);
+    el.style.transform = "scale(0.9)";
+    setTimeout(()=>{ el.style.transform = "scale(1)"; }, 150);
+  }
+</script>
+<!-- GANTI BLOK JS PRODUK OTOMATIS DENGAN POTONGAN DI BAWAH -->
+<script>
+/* ===== mulai: ganti seluruh blok generator produk lama dengan yang ini ===== */
+(function(){
+  const waLink = 'https://wa.me/6285156316569'; // nomor WA tujuan (tanpa '+')
+
+  const productsInfo = [
+    {
+      name: 'WormGPT',
+      price: 'Rp 1.800.000',
+      desc: 'AI generatif untuk tujuan edukasi keamanan siber — untuk riset/learning saja.'
+    },
+    {
+      name: 'Ransomware v1',
+      price: 'Rp 35.000',
+      desc: 'Fitur (EDUKASI): mengunci aplikasi & mengenkripsi file; bertahan setelah restart sampai password benar dimasukkan. Hanya untuk uji di lingkungan terkontrol; penggunaan tanpa izin adalah ilegal.'
+    },
+    {
+      name: 'Ransomware v2',
+      price: 'Rp 40.000',
+      desc: 'Fitur (EDUKASI): mengunci perangkat saja (restart membuka kembali). Menampilkan UI panik; pada beberapa perangkat tidak memerlukan izin. Hanya untuk uji terkontrol.'
+    },
+    {
+      name: 'gwi-nam',
+      price: 'Rp 20.000',
+      desc: 'Tools otomatis multifungsi via Termux untuk pengujian keamanan; gunakan secara etis dan dengan izin pemilik sistem.'
+    },
+    {
+      name: 'Script DDoS Termux/Linux',
+      price: 'Rp 40.000/minggu',
+      desc: 'Script DDoS (claim). HANYA untuk simulasi di lab/lingkungan terkontrol; penggunaan untuk menyerang tanpa izin adalah ilegal.'
+    },
+    {
+      name: 'ESP8266 (Nethercap)',
+      price: 'Rp 80.000 (basic)/170.000 (pro)',
+      desc: 'Perangkat berbasis ESP8266 — umum dipakai untuk eksperimen IoT, packet sniffing dan pengujian jaringan di lingkungan terkontrol.'
+    },
+    {
+      name: 'TicWatch Hacker',
+      price: 'Rp 3.900.000',
+      desc: 'Smartwatch dengan Nethunter (preloaded) untuk pengujian Wi-Fi WPA/WPA2 — hanya untuk pentest berizin.'
+    },
+    {
+      name: 'Flipper Zero',
+      price: 'Rp 3.300.000', // (harga contoh: +10% dari referensi)
+      desc: 'Multi-tool portabel: baca/emulate RFID/NFC, IR, radio sub-GHz, GPIO, dsb. Cocok untuk pentesting dan eksperimen (fullset).'
+    },
+    {
+      name: 'M5Stick Plus',
+      price: 'Rp 414.000', // (harga contoh: +15%)
+      desc: 'Modul IoT berbasis ESP32: Wi-Fi, layar kecil, sensor. Bagus untuk prototipe dan pengujian jaringan.'
+    },
+    {
+      name: 'Frekuensi Jammer',
+      price: 'Rp 700.000',
+      desc: 'Perangkat pengganggu sinyal (GPS/GSM/CDMA/PHS/DCS). Periksa legalitas setempat — penggunaan tanpa izin biasanya ilegal.'
+    },
+    {
+      name: '2.4 GHz Jammer',
+      price: 'Rp 350.000',
+      desc: 'Pengacau frekuensi 2.4 GHz (Wi-Fi / perangkat nirkabel). Gunakan hanya di lingkungan legal/terkontrol.'
+    },
+    {
+      name: 'Unknown RAT',
+      price: 'Rp 35.000',
+      desc: 'Remote Access Trojan (deskripsi produk). Hanya untuk riset defensive dan analisis malware di sandbox berizin.'
+    },
+    {
+      name: 'pentestGPT',
+      price: 'Rp 350.000',
+      desc: 'AI pentest tool: analisis kerentanan & rekomendasi eksploitasi otomatis. Gunakan untuk pentest berizin.'
+    }
+  ];
+
+  const container = document.getElementById('products');
+  container.innerHTML = ''; // kosongkan dulu
+
+  productsInfo.forEach((p, idx) => {
+    const fileName = 'y'.repeat(idx + 1) + '.jpg'; // y, yy, yyy, ...
+    const card = document.createElement('div');
+    card.className = 'product';
+
+    // gambar
+    const img = document.createElement('img');
+    img.src = fileName;
+    img.alt = p.name;
+    card.appendChild(img);
+
+    // nama
+    const nameEl = document.createElement('div');
+    nameEl.className = 'product-name';
+    nameEl.textContent = p.name;
+    card.appendChild(nameEl);
+
+    // harga
+    const priceEl = document.createElement('div');
+    priceEl.className = 'product-price';
+    priceEl.textContent = p.price;
+    card.appendChild(priceEl);
+
+    // detail (tersembunyi)
+    const details = document.createElement('div');
+    details.className = 'product-details';
+
+    // deskripsi (bisa multiline)
+    const descEl = document.createElement('div');
+    descEl.innerHTML = p.desc.replace(/\n/g, '<br>');
+    details.appendChild(descEl);
+
+    // tombol beli - di-wrap supaya selalu tengah
+    const buyWrap = document.createElement('div');
+    buyWrap.style.display = 'flex';
+    buyWrap.style.justifyContent = 'center';
+    buyWrap.style.marginTop = '10px';
+
+    const buyBtn = document.createElement('button');
+    buyBtn.className = 'buy-button';
+    buyBtn.textContent = 'Beli Sekarang';
+    // jangan toggle card saat tombol diklik
+    buyBtn.addEventListener('click', (ev) => {
+      ev.stopPropagation();
+      window.open(waLink, '_blank');
+    });
+
+    buyWrap.appendChild(buyBtn);
+    details.appendChild(buyWrap);
+
+    card.appendChild(details);
+
+    // klik kartu: toggle detail
+    card.addEventListener('click', () => {
+      card.classList.toggle('active');
+    });
+
+    container.appendChild(card);
+  });
+
+})();
+/* ===== selesai ===== */
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const runningText = document.querySelector(".running-text-container");
+  const extraSection = document.getElementById("extraSection");
+
+  if (!runningText || !extraSection) return;
+
+  function checkPosition() {
+    const extraRect = extraSection.getBoundingClientRect();
+    const runningRect = runningText.getBoundingClientRect();
+
+    // Jika bagian atas judul "Jasa & Lainnya" sudah masuk atau dilewati oleh running text
+    if (runningRect.bottom >= extraRect.top) {
+      if (!runningText.classList.contains("running-text-hidden")) {
+        runningText.classList.add("running-text-hidden");
+      }
+    } else {
+      if (runningText.classList.contains("running-text-hidden")) {
+        runningText.classList.remove("running-text-hidden");
+      }
+    }
+  }
+
+  window.addEventListener("scroll", checkPosition, { passive: true });
+  window.addEventListener("resize", checkPosition);
+  checkPosition();
+});
+</script>
+<script>
+(function() {
+  if (window.history && window.history.replaceState) {
+    // Ganti URL jadi domain utama
+    history.replaceState({}, "Raffael Website", "/");
+    // Ubah judul tab
+    document.title = "Raffael Website";
+  }
+})();
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  document.querySelectorAll("*").forEach(function(el) {
+    el.style.webkitTapHighlightColor = "transparent";
+    el.style.userSelect = "none";
+  });
+});
+</script>
+
+<div class="running-text-container">
+  
+  <!-- Pedang kiri -->
+  <div class="sword-wrapper">
+    <svg class="sword-icon" viewBox="0 0 64 64">
+      <path d="M48 2L26 24l4 4L14 44l-4-4-6 6 10 10-6 6 4 4 6-6 10 10 6-6-4-4 16-16 4 4 22-22V2z"/>
+    </svg>
+  </div>
+
+  <!-- Area teks -->
+  <div class="text-area">
+    <div class="running-text">
+      DISCLAIMER: Semua produk di halaman ini bersifat sensitif. Dilarang keras menggunakan untuk tujuan ilegal. 
+      Segala penyalahgunaan akan sepenuhnya menjadi tanggung jawab pembeli, dan dapat berakibat konsekuensi hukum.
+    </div>
+  </div>
+
+  <!-- Pedang kanan -->
+  <div class="sword-wrapper">
+    <svg class="sword-icon" viewBox="0 0 64 64">
+      <path d="M48 2L26 24l4 4L14 44l-4-4-6 6 10 10-6 6 4 4 6-6 10 10 6-6-4-4 16-16 4 4 22-22V2z"/>
+    </svg>
+  </div>
+
+</div>
+
+</body>
+</html>
