@@ -1,0 +1,1 @@
+echo "31c08c8fa820a920cbcd6d8faba7efcbd92882d40e3d39cb2d7b6f8b420a906" > hash.txt
