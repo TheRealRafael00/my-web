@@ -1,8 +1,11 @@
 {
   "rewrites": [
-    {
-      "source": "/:path",
-      "destination": "/:path.html"
-    }
+    { "source": "/", "destination": "/index.html" },
+    { "source": "/home", "destination": "/home.html" },
+    { "source": "/course", "destination": "/course.html" },
+    { "source": "/courseh", "destination": "/courseh.html" },
+    { "source": "/portfolio", "destination": "/portfolio.html" },
+    { "source": "/produk", "destination": "/produk.html" },
+    { "source": "/breach", "destination": "/breach.html" }
   ]
 }
