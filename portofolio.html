@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" rel="stylesheet">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap');
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Quicksand', sans-serif;
+    color: white;
+    min-height: 100%;
+    overflow-x: hidden;
+  }
+
+  body {
+    background: white;
+  }
+
+  .menu-btn {
+    position: absolute;
+    top: 12px;
+    left: 20px;
+    cursor: pointer;
+    z-index: 1002;
+    opacity: 0;
+    animation: fadeInMenu 1.5s ease-in-out forwards;
+    animation-delay: 0.3s;
+    height: 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    user-select: none;
+  }
+
+  .menu-btn div {
+    width: 32px;
+    height: 4px;
+    background: white;
+    margin: 4px 0;
+    border-radius: 2px;
+    box-shadow: 0 0 8px rgba(173, 216, 230, 0.9);
+    transition: 0.4s;
+  }
+
+  .menu-btn:active {
+    transform: scale(0.9) rotate(-5deg);
+    filter: drop-shadow(0 0 12px rgba(173, 216, 230, 0.9));
+    transition: all 0.2s ease;
+  }
+
+  @keyframes fadeInMenu {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .side-menu {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: #000;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.5);
+    transition: left 0.4s ease;
+    z-index: 1003;
+    padding: 20px;
+    color: white;
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .side-menu.show {
+    left: 0;
+  }
+
+  .menu-item {
+    padding: 12px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    text-shadow: 0 0 6px rgba(255,255,255,0.8);
+    transition: all 0.3s ease;
+    user-select: none;
+  }
+
+  .menu-item:hover {
+    transform: scale(1.05);
+  }
+
+  .menu-item.active-blue {
+    box-shadow: 0 0 15px rgba(173, 216, 230, 0.9);
+    pointer-events: none;
+  }
+
+  .menu-item.active-red {
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.9);
+  }
+
+  .menu-item:active {
+    transform: scale(0.95) rotate(-1deg);
+    box-shadow: 0 0 20px rgba(255,255,255,0.9);
+  }
+
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.3);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+    z-index: 1001;
+  }
+
+  .overlay.show {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .menu-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 20px;
+    transform: translateY(-20px);
+  }
+
+/* ===== kontak section ===== */
+.contact-section {
+  margin: 60px auto 120px;
+  text-align: center;
+  width: 90%;
+  max-width: 900px;
+  font-family: 'Quicksand', sans-serif;
+  color: white;
+}
+
+.contact-section h1 {
+  font-family: 'Permanent Marker', cursive;
+  font-size: 3em;
+  margin-bottom: 18px;
+  color: #ffd369;
+  text-shadow: 3px 3px 14px rgba(0,0,0,0.7);
+}
+
+/* badge grid */
+.contact-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  justify-content: center;
+  align-items: center;
+  margin-top: 8px;
+}
+
+/* each badge */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  user-select: none;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+  transition: transform .18s ease, box-shadow .18s ease;
+  text-decoration: none;
+  color: white;
+}
+
+/* icon circle */
+.badge .bicon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: inline-grid;
+  place-items: center;
+  font-size: 0.95rem;
+  box-shadow: inset 0 -6px 14px rgba(0,0,0,0.2);
+}
+
+/* colored styles */
+.badge.email { background: linear-gradient(135deg,#ff8a65,#ffb74d); }
+.badge.email .bicon { background: rgba(255,255,255,0.12); }
+
+.badge.wa { background: linear-gradient(135deg,#25D366,#128C7E); }
+.badge.wa .bicon { background: rgba(255,255,255,0.08); }
+
+.badge.tiktok { background: linear-gradient(135deg,#69C9D0,#EE1D52); }
+.badge.tiktok .bicon { background: rgba(255,255,255,0.06); }
+
+.badge.telegram { background: linear-gradient(135deg,#2AABEE,#1E96DB); }
+.badge.telegram .bicon { background: rgba(255,255,255,0.06); }
+
+.badge.linkedin { background: linear-gradient(135deg,#0A66C2,#2B7BB9); }
+.badge.linkedin .bicon { background: rgba(255,255,255,0.06); }
+
+.badge.copy {
+  background: linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045);
+  background-size: 200% 200%;
+  animation: badgeGlow 6s ease infinite;
+}
+@keyframes badgeGlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* hover */
+.badge:hover { transform: translateY(-4px) scale(1.01); box-shadow: 0 14px 30px rgba(0,0,0,0.45); }
+.badge:active { transform: translateY(-1px) scale(.995); }
+
+/* small note */
+.contact-note {
+  margin-top: 14px;
+  font-size: 0.9rem;
+  opacity: .85;
+  color: rgba(255,255,255,0.95);
+}
+
+  .menu-image img {
+    max-width: 50%; 
+    height: auto;
+    transform: translateX(2px);
+    user-select: none;
+    pointer-events: none;
+  }
+
+  .menu-image .graffiti-text {
+    margin-left: 10px;
+    font-family: 'Creepster', cursive;
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #ff0000;
+    text-shadow:
+      2px 2px 4px rgba(255, 255, 255, 0.2),
+      -2px -2px 4px rgba(255, 0, 0, 0.5),
+      0 0 8px rgba(255, 0, 0, 0.7),
+      0 0 12px rgba(139, 0, 0, 0.9);
+    letter-spacing: 2px;
+    user-select: none;
+    pointer-events: none;
+    animation: dripEffect 2s infinite ease-in-out;
+  }
+
+  @keyframes dripEffect {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(2px) rotate(-0.5deg); }
+  }
+  
+  .contact-icon {
+  width: 20px;
+  height: 20px;
+  vertical-align: middle;
+  margin-right: 8px;
+  object-fit: contain;
+}
+  
+  .badge {
+  position: relative;
+  overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+.badge:focus,
+.badge:active {
+  outline: none;
+}
+
+.badge::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  background: var(--ripple-color, rgba(255,255,255,0.4)); /* warna ripple sesuai gradien */
+  transform: scale(0);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.badge.animate::after {
+  animation: ripple 0.6s ease-out forwards;
+}
+
+@keyframes ripple {
+  from {
+    transform: scale(0);
+    opacity: 0.6;
+  }
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+  .content {
+    width: 80%;
+    max-width: 900px;
+    margin: 80px auto;
+    opacity: 0;
+    transition: opacity 1.5s ease;
+    padding-bottom: 50px;
+  }
+  
+  .certificate-section {
+  margin-top: 60px;
+  text-align: center;
+}
+
+.certificate-section h1 {
+  font-family: 'Permanent Marker', cursive;
+  font-size: 3em;
+  color: red;
+  text-shadow: 6px 6px 14px black;
+  margin-bottom: 30px;
+}
+
+.certificate-gallery {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 50px;
+}
+
+.certificate-gallery img {
+  max-width: 70%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 0 12px rgba(255,255,255,0.6);
+}
+
+  .content.show {
+    opacity: 1;
+  }
+
+  h1 {
+    font-family: 'Permanent Marker', cursive;
+    font-size: 3em;
+    color: #b3e5fc;
+    text-shadow: 4px 4px 12px white;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  p {
+    font-size: 1em;
+    line-height: 1.6;
+    text-align: justify;
+    white-space: pre-line;
+  }
+  /* Skills Section */
+.skill {
+  margin: 20px auto;
+  max-width: 600px;
+  text-align: left;
+  font-size: 1em;
+  font-family: 'Quicksand', sans-serif;
+  color: white;
+}
+
+.skill span {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: bold;
+}
+
+.skill-bar {
+  width: 100%;
+  height: 25px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+}
+
+.skill-fill {
+  height: 100%;
+  width: 0%;
+  border-radius: 12px;
+  background: lightblue;
+  background-size: 300% 300%;
+  animation: colorShift 20s infinite linear;
+  transition: width 2s ease-out;
+  position: relative;
+}
+
+/* teks persentase di dalam bar */
+.skill-text {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.9em;
+  font-weight: bold;
+  color: #fff; /* putih biar selalu kebaca */
+  white-space: nowrap;
+}
+
+/* Warna bar animasi (milk blue → blood red → warm tone) */
+@keyframes colorShift {
+  0%   { background-color: #a7d8f5; }   /* biru susu terang */
+  33%  { background-color: #b22222; }   /* merah darah */
+  66%  { background-color: #ffb347; }   /* warna hangat (oranye) */
+  100% { background-color: #a7d8f5; }   /* kembali ke biru susu */
+}
+</style>
+</head>
+<body>
+
+<div class="menu-btn" onclick="toggleMenu()">
+  <div></div>
+  <div></div>
+  <div></div>
+</div>
+
+<div class="overlay" id="overlay" onclick="closeMenu()"></div>
+
+<div class="side-menu" id="sideMenu">
+  <div>
+    <div id="menuHome" class="menu-item active-red">🏠 Home</div>
+    <div id="menuPortfolio" class="menu-item active-blue">📁 Portfolio</div>
+    <div id="menuProduk" class="menu-item active-red">📦 Produk</div>
+    <div id="menuCourse" class="menu-item active-red">📖 courses</div>
+  </div>
+  <div class="menu-image">
+    <img src="i.png" alt="">
+    <span class="graffiti-text">CIVILIANS</span>
+  </div>
+</div>
+
+<div class="content" id="aboutContent">
+  <h1>TENTANG</h1>
+  <p>
+Halo, saya Raffael Putra Hermawan, pelajar kelas X-3 di SMA Negeri 14 Depok. Saya lahir pada 26 Mei 2010 dan saat ini berusia 15 tahun. Sebelum SMA, saya menempuh pendidikan di TK Annuriyah, MI Annuriyah Plus Beji, dan SMP Negeri 26 Depok.
+
+Perjalanan saya di dunia keamanan siber dimulai sejak kelas 7 SMP, di usia sekitar 13 tahun. Ketertarikan ini berawal dari rasa ingin tahu yang besar terhadap cara kerja teknologi dan bagaimana melindungi sistem dari ancaman digital. Sejak saat itu, saya aktif mengikuti berbagai kursus dan sertifikasi, baik dari dalam maupun luar negeri, untuk memperdalam pengetahuan saya.
+
+Hingga kini, saya telah menyelesaikan 21 sertifikat dari 10 lembaga ternama seperti Cisco Networking Academy, ISC2, EC-Council, IBM SkillsBuild, Cyber Academy, Cybrary, Simplilearn, Bisa AI Academy, Cursa, ARCX, Google, Amazon, codecademy, Fortinet, adbi institute, fortinet, kominfo, codecademy
+
+Topik sertifikasi yang saya kuasai meliputi:
+- CC Course Conclusion & Final Assessment
+- Introduction to Information Security
+- Introduction to Dark Web, Anonymity, and Cryptocurrency
+- Introduction to Cybersecurity
+- Ethical Hacking: Introduction to Ethical Hacking
+- Ethical Hacker
+- CompTIA Security+ Course by Certify Breakfast
+- Cyber Threat Intelligence 101
+- Cybersecurity Fundamentals
+- Cybersecurity Essentials with Kali Linux
+- ChatGPT for Cybersecurity
+- Cybersecurity for Businesses – Fundamental Edition
+- Classical Cryptography for Beginners
+- IT Security – Google Career Certificates
+- DLL
+
+Selain belajar, saya juga mengerjakan berbagai proyek pribadi. Saya telah mengembangkan tiga tools hacking berbasis Python — Gwi-nam, CWABS, dan Moonjacking — yang dirancang untuk otomatisasi pengujian keamanan, khususnya agar pemula bisa memahami proses hacking secara edukatif. Beberapa kali saya juga menerima pekerjaan pentesting berbayar untuk website, termasuk membuat laporan analisis keamanan dan memberikan rekomendasi perbaikan.
+
+Ke depan, saya memiliki cita-cita besar: menjadi Cybersecurity Specialist (Red Team) di perusahaan ternama Amerika Serikat, bergabung dengan tim keamanan siber di White House, atau menjadi bagian dari unit keamanan siber TNI–POLRI.
+
+Bagi saya, keamanan siber bukan sekadar teknologi, tetapi tentang tanggung jawab untuk menciptakan lingkungan digital yang aman. Karena itu, saya akan terus belajar, berlatih, dan berkembang agar bisa memberikan kontribusi nyata di dunia ini.
+  </p>
+</div>
+<div class="certificate-section">
+  <h1>CERTIFICATE</h1>
+  <div class="certificate-gallery">
+    <img src="my.jpg" alt="Certificate 1">
+    <img src="myy.jpg" alt="Certificate 2">
+    <img src="myyy.jpg" alt="Certificate 3">
+    <img src="myyyy.jpg" alt="Certificate 4">
+    <img src="myyyyy.jpg" alt="Certificate 5">
+    <img src="myyyyyy.jpg" alt="Certificate 6">
+    <img src="myyyyyyy.jpg" alt="Certificate 7">
+    <img src="myyyyyyyy.jpg" alt="Certificate 8">
+    <img src="myyyyyyyyy.jpg" alt="Certificate 9">
+    <img src="myyyyyyyyyy.jpg" alt="Certificate 10">
+    <img src="myyyyyyyyyyy.jpg" alt="Certificate 11">
+    <img src="myyyyyyyyyyyy.jpg" alt="Certificate 12">
+    <img src="myyyyyyyyyyyyy.jpg" alt="Certificate 13">
+    <img src="myyyyyyyyyyyyyy.jpg" alt="Certificate 14">
+    <img src="myyyyyyyyyyyyyyy.jpg" alt="Certificate 15">
+    <img src="myyyyyyyyyyyyyyyy.jpg" alt="Certificate 16">
+    <img src="myyyyyyyyyyyyyyyyy.jpg" alt="Certificate 17">
+    <img src="myyyyyyyyyyyyyyyyyy.jpg" alt="Certificate 18">
+    <img src="myyyyyyyyyyyyyyyyyyy.jpg" alt="Certificate 19">
+    <img src="myyyyyyyyyyyyyyyyyyyy.jpg" alt="Certificate 20">
+    <img src="myyyyyyyyyyyyyyyyyyyyy.jpg" alt="Certificate 21">
+  </div>
+</div>
+<!-- ===== Skills Section ===== -->
+<section id="skills" style="padding: 50px 20px; text-align:center;">
+  <h2 style="font-family: 'Cmatrix', monospace; color: limegreen; font-size: 2.5em; margin-bottom: 30px;">
+    Skills
+  </h2>
+
+  <div class="skill">
+    <span>HTML</span>
+    <div class="skill-bar">
+      <div class="skill-fill" data-percent="70"><span class="skill-text"></span></div>
+    </div>
+  </div>
+
+  <div class="skill">
+    <span>CSS</span>
+    <div class="skill-bar">
+      <div class="skill-fill" data-percent="55"><span class="skill-text"></span></div>
+    </div>
+  </div>
+  
+  <div class="skill">
+    <span>pentesting</span>
+    <div class="skill-bar">
+      <div class="skill-fill" data-percent="75"><span class="skill-text"></span></div>
+    </div>
+  </div>
+  
+  <div class="skill">
+    <span>social engineering</span>
+    <div class="skill-bar">
+      <div class="skill-fill" data-percent="80"><span class="skill-text"></span></div>
+    </div>
+  </div>
+
+  <div class="skill">
+    <span>JavaScript</span>
+    <div class="skill-bar">
+      <div class="skill-fill" data-percent="69"><span class="skill-text"></span></div>
+    </div>
+  </div>
+
+  <div class="skill">
+    <span>Python</span>
+    <div class="skill-bar">
+      <div class="skill-fill" data-percent="89"><span class="skill-text"></span></div>
+    </div>
+  </div>
+
+  <div class="skill">
+    <span>Termux</span>
+    <div class="skill-bar">
+      <div class="skill-fill" data-percent="47"><span class="skill-text"></span></div>
+    </div>
+  </div>
+
+  <div class="skill">
+    <span>Kali Linux</span>
+    <div class="skill-bar">
+      <div class="skill-fill" data-percent="21"><span class="skill-text"></span></div>
+    </div>
+  </div>
+
+  <div class="skill">
+    <span>AI prompt engineering</span>
+    <div class="skill-bar">
+      <div class="skill-fill" data-percent="100"><span class="skill-text"></span></div>
+    </div>
+  </div>
+
+  <div class="skill">
+    <span>Cryptography</span>
+    <div class="skill-bar">
+      <div class="skill-fill" data-percent="41"><span class="skill-text"></span></div>
+    </div>
+  </div>
+
+  <div class="skill">
+    <span>AWS Cloud</span>
+    <div class="skill-bar">
+      <div class="skill-fill" data-percent="15"><span class="skill-text"></span></div>
+    </div>
+  </div>
+
+  <div class="skill">
+    <span>Red Team & Blue Team Tools</span>
+    <div class="skill-bar">
+      <div class="skill-fill" data-percent="70"><span class="skill-text"></span></div>
+    </div>
+  </div>
+</section>
+<!-- ===== kontak section START (pasang ini setelah certificate-section) ===== -->
+<div class="contact-section" id="kontakSection">
+  <h1>KONTAK</h1>
+
+<div class="contact-badges">
+  <a class="badge linkedin" href="https://id.linkedin.com/in/raffael-putra-hermawan-b6a626367"
+     target="_blank" rel="noopener" title="LinkedIn">
+    <img src="https://files.catbox.moe/wuy2l8.svg"
+         alt="LinkedIn Logo" class="contact-icon">
+    <span>LinkedIn — Raffael Putra Hermawan</span>
+  </a>
+
+  <a class="badge email" href="mailto:privacyisdignity@gmail.com" title="Kirim email">
+    <img src="https://files.catbox.moe/22giba.svg"
+         alt="Email Logo" class="contact-icon">
+    <span>privacyisdignity@gmail.com</span>
+  </a>
+
+  <a class="badge wa" href="https://chat.whatsapp.com/CUCPcqQs7plEwb2HLyzcnO?mode=ac_t"
+     target="_blank" rel="noopener" title="Gabung grup WA Komunitas Siber">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"
+         alt="WhatsApp Logo" class="contact-icon">
+    <span>Grup WA — Komunitas Siber</span>
+  </a>
+
+  <button class="badge tiktok" type="button" data-copy="@if.no.username"
+          title="Salin username TikTok">
+    <img src="https://files.catbox.moe/6epa1z.svg"
+         alt="TikTok Logo" class="contact-icon">
+    <span>TikTok — @if.no.username</span>
+  </button>
+
+  <button class="badge telegram" type="button" data-copy="@mumyzR"
+          title="Salin username Telegram">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg"
+         alt="Telegram Logo" class="contact-icon">
+    <span>Telegram — @mumyzR</span>
+  </button>
+</div>
+
+    <button class="badge copy" id="copyAllBtn" type="button" title="Salin semua kontak">
+      <span class="bicon">📋</span>
+      <span>Salin Semua Kontak</span>
+    </button>
+  </div>
+
+  <footer>
+  <p>  © 2025 Raffael Putra Hermawan. All Rights Reserved.</p>
+</footer>
+</div>
+<!-- ===== kontak section END ===== -->
+
+<script>
+  function toggleMenu() {
+    const btn = document.querySelector('.menu-btn');
+    btn.style.transform = "scale(0.9) rotate(3deg)";
+    btn.style.filter = "drop-shadow(0 0 12px rgba(173, 216, 230, 0.9))";
+    setTimeout(() => {
+      btn.style.transform = "scale(1)";
+      btn.style.filter = "";
+    }, 200);
+    document.getElementById('sideMenu').classList.toggle('show');
+    document.getElementById('overlay').classList.toggle('show');
+  }
+
+  function closeMenu() {
+    document.getElementById('sideMenu').classList.remove('show');
+    document.getElementById('overlay').classList.remove('show');
+  }
+
+  document.getElementById("menuHome").addEventListener("click", () => {
+    window.location.href = "home.html";
+  });
+  
+  document.getElementById("menuCourse").addEventListener("click", () => {
+    window.location.href = "course.html";
+  });
+  
+  document.getElementById("menuProduk").addEventListener("click", () => {
+    window.location.href = "produk.html";
+});
+
+  const palettes = [
+    ['#0f172a', '#3b2667', '#9b4d6a'],
+    ['#1f2937', '#0f4c81', '#7c3aed'],
+    ['#061826', '#0a6e59', '#7fd3c5'],
+    ['#2b2735', '#6b3f86', '#f08a5d'],
+    ['#1e1b18', '#8b5cf6', '#ef476f'],
+    ['#101419', '#2d7dd2', '#ffb86b'],
+    ['#13293d', '#006494', '#247ba0'],
+    ['#0d1b2a', '#1b263b', '#415a77'],
+    ['#006400', '#228B22', '#32CD32'],
+    ['#008000', '#00FF00', '#7CFC00'],
+    ['#006A4E', '#50C878', '#8FBC8F'],
+    ['#9ACD32', '#ADFF2F', '#556B2F'],
+    ['#2E8B57', '#3CB371', '#66CDAA'],
+    ['#20B2AA', '#00FA9A', '#7FFFD4'],
+    ['#B2D8B2', '#C1E1C1', '#D0F0C0'],
+    ['#A9BA9D', '#C3DFAE', '#E6F2E6'],
+    ['#ff9a9e', '#fad0c4', '#fad0c4'],
+    ['#ff9966', '#ff5e62', '#ff7e5f'],
+    ['#fbc2eb', '#a6c1ee', '#d299c2'],
+    ['#f8b195', '#f67280', '#c06c84'],
+    ['#a8edea', '#fed6e3', '#e0c3fc'],
+    ['#fbc2eb', '#ffdde1', '#cfd9df'],
+    ['#0f0c29', '#302b63', '#24243e'],
+    ['#43cea2', '#185a9d', '#2b5876'],
+    ['#ff6a00', '#ee0979', '#ff512f'],
+    ['#8e735b', '#c0a080', '#e6d3b3'],
+    ['#5a3d2b', '#8b5a2b', '#d2b48c'],
+    ['#a78b71', '#cbb59c', '#e6cfb3'],
+    ['#2c3e50', '#3498db', '#2ebf91'],
+    ['#2193b0', '#6dd5ed', '#b2fefa'],
+    ['#1a2980', '#26d0ce', '#56ccf2'],
+    ['#ffecd2', '#fcb69f', '#f6d365'],
+    ['#89f7fe', '#66a6ff', '#4facfe'],
+    ['#cfd9df', '#e2ebf0', '#dbe6f6'],
+    ['#fdfcfb', '#e2d1c3', '#f6f0ea'],
+    ['#fbc2eb', '#a18cd1', '#fad0c4'],
+    ['#ffdde1', '#ee9ca7', '#ffb6b9'],
+    ['#f7971e', '#ffd200', '#ffefba'],
+    ['#4ca1af', '#c4e0e5', '#92fe9d'],
+    ['#1f4037', '#99f2c8', '#38ef7d'],
+    ['#fc5c7d', '#6a82fb', '#fbc2eb'],
+    ['#ffafbd', '#ffc3a0', '#fbc2eb'],
+    ['#2193b0', '#6dd5ed', '#fdfbfb'],
+    ['#cc2b5e', '#753a88', '#ee9ca7'],
+    ['#42275a', '#734b6d', '#ffafbd'],
+    ['#00c6ff', '#0072ff', '#4facfe'],
+    ['#ff7e5f', '#feb47b', '#fad0c4'],
+    ['#536976', '#292e49', '#0f0c29'],
+    ['#3a1c71', '#d76d77', '#ffaf7b'],
+    ['#ff6e7f', '#bfe9ff', '#89f7fe'],
+    ['#4e54c8', '#8f94fb', '#a6c0fe'],
+    ['#f953c6', '#b91d73', '#ee9ca7'],
+    ['#00c3ff', '#ffff1c', '#ffefba'],
+    ['#8360c3', '#2ebf91', '#56ccf2'],
+    ['#ffd89b', '#19547b', '#89f7fe'],
+    ['#f12711', '#f5af19', '#ffb347'],
+    ['#c31432', '#240b36', '#642b73'],
+    ['#000428', '#004e92', '#203a43'],
+    ['#e96443', '#904e95', '#ff758c'],
+    ['#373b44', '#4286f4', '#6dd5ed'],
+    ['#ff4e50', '#f9d423', '#f6d365'],
+    ['#134e5e', '#71b280', '#38ef7d'],
+    ['#ff0844', '#ffb199', '#fad0c4'],
+    ['#355c7d', '#6c5b7b', '#c06c84'],
+    ['#abbaab', '#ffffff', '#dce35b'],
+    ['#614385', '#516395', '#6a82fb'],
+    ['#02aab0', '#00cdac', '#56ccf2'],
+    ['#d66d75', '#e29587', '#fbc2eb'],
+    ['#000046', '#1cb5e0', '#36d1dc'],
+    ['#eacda3', '#d6ae7b', '#ffb347'],
+    ['#f7ff00', '#db36a4', '#ff758c'],
+    ['#00d2ff', '#3a7bd5', '#4facfe'],
+    ['#141e30', '#243b55', '#485563'],
+    ['#ff0099', '#493240', '#d9a7c7'],
+    ['#4568dc', '#b06ab3', '#c9d6ff'],
+    ['#000000', '#434343', '#5f5f5f'],
+    ['#780206', '#061161', '#1a2a6c'],
+    ['#3c1053', '#ad5389', '#ff6a00'],
+    ['#fdfc47', '#24fe41', '#11998e'],
+    ['#23074d', '#cc5333', '#f12711'],
+    ['#00c9ff', '#92fe9d', '#38ef7d'],
+    ['#ff9966', '#ff5e62', '#ff7e5f'],
+    ['#6a3093', '#a044ff', '#d9a7c7'],
+    ['#1e130c', '#9a8478', '#d3cbb8'],
+    ['#2b5876', '#4e4376', '#4568dc'],
+    ['#ff5f6d', '#ffc371', '#f6d365'],
+    ['#4b6cb7', '#182848', '#283e51'],
+    ['#e53935', '#e35d5b', '#ff7e5f'],
+    ['#ec6f66', '#f3a183', '#fbc2eb'],
+    ['#de6262', '#ffb88c', '#fbc2eb'],
+    ['#06beb6', '#48b1bf', '#4facfe'],
+    ['#eb3349', '#f45c43', '#f6d365'],
+    ['#dd5e89', '#f7bb97', '#ffafbd'],
+    ['#56ccf2', '#2f80ed', '#4facfe'],
+    ['#614385', '#516395', '#8e54e9'],
+    ['#11998e', '#38ef7d', '#96e6a1'],
+    ['#fc00ff', '#00dbde', '#4facfe'],
+    ['#8e2de2', '#4a00e0', '#6a82fb'],
+    ['#ff416c', '#ff4b2b', '#f6d365'],
+    ['#0f2027', '#203a43', '#2c5364'],
+    ['#3e5151', '#decba4', '#efefbb'],
+    ['#bdc3c7', '#2c3e50', '#4ca1af']
+];
+
+  let current = 0;
+  let next = 1;
+  let step = 0;
+  const speed = 0.002;
+
+  function lerpColor(a, b, t) {
+    const ah = parseInt(a.replace(/#/g, ''), 16),
+          ar = ah >> 16, ag = (ah >> 8) & 0xff, ab = ah & 0xff,
+          bh = parseInt(b.replace(/#/g, ''), 16),
+          br = bh >> 16, bg = (bh >> 8) & 0xff, bb = bh & 0xff,
+          rr = ar + t * (br - ar),
+          rg = ag + t * (bg - ag),
+          rb = ab + t * (bb - ab);
+    return `rgb(${Math.round(rr)},${Math.round(rg)},${Math.round(rb)})`;
+  }
+
+  function updateGradient() {
+    step += speed;
+    if (step >= 1) {
+      step %= 1;
+      current = next;
+      next = (next + 1) % palettes.length;
+    }
+    const c0 = lerpColor(palettes[current][0], palettes[next][0], step);
+    const c1 = lerpColor(palettes[current][1], palettes[next][1], step);
+    const c2 = lerpColor(palettes[current][2], palettes[next][2], step);
+    document.body.style.background = `linear-gradient(135deg, ${c0}, ${c1}, ${c2})`;
+    requestAnimationFrame(updateGradient);
+  }
+
+  setTimeout(() => {
+    let fadeStep = 0;
+    const fadeSpeed = 0.01;
+    const firstPalette = palettes[0];
+    function fadeIn() {
+      fadeStep += fadeSpeed;
+      if (fadeStep >= 1) fadeStep = 1;
+      const c0 = lerpColor('#ffffff', firstPalette[0], fadeStep);
+      const c1 = lerpColor('#ffffff', firstPalette[1], fadeStep);
+      const c2 = lerpColor('#ffffff', firstPalette[2], fadeStep);
+      document.body.style.background = `linear-gradient(135deg, ${c0}, ${c1}, ${c2})`;
+      if (fadeStep < 1) {
+        requestAnimationFrame(fadeIn);
+      } else {
+        requestAnimationFrame(updateGradient);
+      }
+    }
+    fadeIn();
+  }, 3000);
+
+  setTimeout(() => {
+    document.getElementById("aboutContent").classList.add("show");
+  }, 4000);
+</script>
+<script>
+  document.addEventListener('selectstart', e => e.preventDefault()); // blok seleksi teks
+  document.addEventListener('copy', e => e.preventDefault());        // blok copy
+  document.addEventListener('contextmenu', e => e.preventDefault()); // blok klik kanan
+</script>
+<script>
+  const audio = new Audio('ryna.mp3');
+  audio.loop = true;
+
+  function startAudio() {
+    audio.play().catch(err => console.warn('Autoplay gagal:', err));
+    // Hapus listener biar cuma jalan sekali
+    document.removeEventListener('click', startAudio);
+    document.removeEventListener('scroll', startAudio);
+  }
+
+  // Jalankan saat user klik atau scroll pertama kali
+  document.addEventListener('click', startAudio);
+  document.addEventListener('scroll', startAudio);
+</script>
+<script>
+document.querySelectorAll('.badge').forEach(btn => {
+  btn.addEventListener('click', e => {
+    e.preventDefault();
+
+    // Ambil warna ripple dari background gradien badge
+    const bg = window.getComputedStyle(btn).backgroundImage;
+    const match = bg.match(/(#[0-9a-f]{3,6}|rgb\([^)]+\))/ig);
+    let rippleColor = 'rgba(255,255,255,0.4)';
+    if (match && match.length > 1) {
+      rippleColor = match[Math.floor(match.length / 2)]; // warna tengah
+    }
+    btn.style.setProperty('--ripple-color', rippleColor);
+
+    btn.classList.remove('animate');
+    void btn.offsetWidth;
+    btn.classList.add('animate');
+
+    const url = btn.getAttribute('href');
+    if (url && url !== '#') {
+      setTimeout(() => {
+        window.open(url, '_blank');
+      }, 250);
+    }
+  });
+
+  btn.addEventListener('contextmenu', e => e.preventDefault());
+});
+</script>
+<script>
+(function() {
+  if (window.history && window.history.replaceState) {
+    // Ganti URL jadi domain utama
+    history.replaceState({}, "Raffael Website", "/");
+    // Ubah judul tab
+    document.title = "Raffael Website";
+  }
+})();
+</script>
+<script>
+// Observer untuk animasi bar saat section muncul
+const skillObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const fills = entry.target.querySelectorAll('.skill-fill');
+      fills.forEach(fill => {
+        const percent = fill.getAttribute('data-percent');
+        fill.style.width = percent + "%";
+
+        // teks persentase
+        const text = fill.querySelector(".skill-text");
+        text.textContent = percent + "%";
+
+        // posisi teks: setengah dari progress bar
+        let pos = (percent / 2) + "%";
+        text.style.left = pos;
+      });
+    } else {
+      // reset kalau keluar layar
+      const fills = entry.target.querySelectorAll('.skill-fill');
+      fills.forEach(fill => {
+        fill.style.width = "0%";
+        const text = fill.querySelector(".skill-text");
+        text.textContent = "";
+      });
+    }
+  });
+}, { threshold: 0.3 });
+
+const skillSection = document.querySelector("#skills");
+if (skillSection) {
+  skillObserver.observe(skillSection);
+}
+</script>
+</body>
+</html>

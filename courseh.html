@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CourseH</title>
+<style>
+  body{
+    margin:0;
+    height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background: linear-gradient(to bottom, #0d0d0d, #1a0f0f, #261a0d, #33261a);
+    font-family: Arial, sans-serif;
+    color:#fff;
+  }
+  h1{
+    font-size:2rem;
+    text-align:center;
+  }
+</style>
+</head>
+<body>
+  <h1>Selamat datang di CourseH 🎉</h1>
+
+<script>
+(function protectCourseH(){
+  try {
+    const loginData = localStorage.getItem("authData");
+    if(!loginData){
+      window.location.href = "course.html";
+      return;
+    }
+
+    const parsed = JSON.parse(loginData);
+    const now = Date.now();
+
+    if(parsed.status !== "true" || now > parsed.expiry){
+      localStorage.removeItem("authData");
+      window.location.href = "course.html";
+      return;
+    }
+
+    // user valid, minta izin notifikasi sekali saja
+    if("Notification" in window){
+      if(Notification.permission === "default"){
+        Notification.requestPermission().then(permission=>{
+          if(permission === "granted"){
+            new Notification("Login berhasil!", {
+              body: "Anda akan diingat selama 24 jam."
+            });
+          }
+        });
+      }
+    }
+
+  } catch(e){
+    console.error(e);
+    localStorage.removeItem("authData");
+    window.location.href = "course.html";
+  }
+})();
+</script>
+</body>
+</html>
