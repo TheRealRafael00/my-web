@@ -1,0 +1,68 @@
+cat > blog.txt <<'EOF'
+Kenapa Aku Suka Memancing
+
+Honestly, memancing ni memang best gila. Ramai orang tanya kenapa sanggup duduk berjam-jam tunggu ikan, ...
+What's not to love, right?
+EOF
+python - << 'PY'
+import re, itertools, sys
+txt=open('blog.txt','r',encoding='utf-8',errors='ignore').read()
+
+# ambil kata alnum
+tokens=re.findall(r"[A-Za-z0-9]+", txt)
+tokens=[t for t in (w.strip() for w in tokens) if t]
+
+# kata unik penting
+core = set(w.lower() for w in tokens)
+# judul jadi kandidat utama
+title = "kenapa aku suka memancing"
+core.update(title.lower().split())
+core.add(title.replace(" ",""))
+core.add(title.replace(" ","").lower())
+core.add("kenapaakusukamemancing")
+# frasa khas dari blog
+core.update([
+    "memancing","mancing","pancing","joran","ikan","ikanbesar",
+    "strike","missstrike","sungai","tasik","anginsepoisepoi",
+    "sunrise","sunset","lepak","borak","qualitytime",
+    "escapism","bestgila","freshgila","syok","palingsyok",
+    "achievementunlock","whatsnottolove","whatsnottoloveright",
+])
+
+# angka relevan dari challenge
+nums=["3856","2025","21082025","22082025","210820","220820"]
+
+def variants(w):
+    yield w
+    yield w.capitalize()
+    yield w.upper()
+
+cands=set()
+
+# bentuk dasar
+for w in list(core):
+    for v in variants(w):
+        cands.add(v)
+
+# gabungan bigram penting (tanpa spasi)
+keys=[k for k in core if len(k)>=4]
+for a,b in itertools.permutations(keys,2):
+    j=a+b
+    if 6<=len(j)<=18:
+        for v in variants(j):
+            cands.add(v)
+
+# tambah suffix/prefix angka
+base=list(cands)
+for w in base:
+    for n in nums:
+        cands.add(w+n); cands.add(n+w); cands.add(w+"_"+n)
+
+# batasi ukuran agar tetap masuk akal
+lst=sorted(cands, key=lambda x:(len(x),x))[:150000]
+open('wordlist.txt','w').write("\n".join(lst))
+print(f"[+] wordlist.txt generated:", len(lst), "candidates")
+PY
+zip2john hobby.zip > hobby.hash
+john --wordlist=wordlist.txt hobby.hash
+john --show hobby.hash

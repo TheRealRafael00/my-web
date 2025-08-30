@@ -1,6 +1,0 @@
-const found = [];
-document.querySelectorAll('script').forEach(s=>{
-  (s.textContent.match(/[a-f0-9]{64}/gi) || []).forEach(m=>found.push(m));
-});
-console.log(found);
-copy(found.join('\n'));
