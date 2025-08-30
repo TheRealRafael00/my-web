@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kuis Pentest & Nmap</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      color: #fff;
+      background: linear-gradient(to bottom, #0d0d0d, #1a0f0f, #261a0d, #33261a);
+      background-attachment: fixed;
+      user-select: none;
+    }
+    .container {
+      width: 80%;
+      max-width: 700px;
+      margin: 40px auto;
+      padding: 25px;
+      background: #111;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(255,0,0,0.4);
+    }
+    h2 {
+      text-align: center;
+      color: #ff4d4d;
+      text-shadow: 0 0 6px rgba(255,0,0,0.8);
+      margin-bottom: 20px;
+    }
+    .question {
+      margin: 16px 0;
+    }
+    .options label {
+      display: block;
+      margin: 5px 0;
+      cursor: pointer;
+    }
+    button {
+      background: #ff4d4d;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      margin: 20px auto 0;
+      display: block;
+      transition: background 0.3s, transform 0.3s;
+    }
+    button:hover:enabled {
+      background: #ff1a1a;
+      transform: scale(1.05);
+    }
+    button:disabled {
+      background: gray;
+      cursor: not-allowed;
+    }
+    .input-wrapper {
+      display: flex;
+      justify-content: center;
+      margin: 15px 0;
+    }
+    input[type="text"] {
+      width: 60%;
+      max-width: 300px;
+      padding: 10px;
+      border-radius: 6px;
+      border: none;
+      text-align: center;
+      font-size: 15px;
+    }
+    p {
+      line-height: 1.6;
+      text-align: justify;
+    }
+    .custom-alert {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%,-50%);
+      background: #222;
+      padding: 20px 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(255,0,0,0.6);
+      color: #fff;
+      font-size: 16px;
+      text-align: center;
+      z-index: 9999;
+      display: none;
+      max-width: 400px;
+    }
+    .custom-alert.success { border-left: 6px solid #4CAF50; }
+    .custom-alert.fail { border-left: 6px solid #f44336; }
+    .custom-alert button {
+      margin-top: 15px;
+      background: #ff4d4d;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="container" id="quizContainer">
+    <h2>Soal PG</h2>
+    <form id="quizForm">
+      <div class="question"><p>1. Apa tujuan utama dari penetration testing?</p><div class="options"><label><input type="radio" name="q1" value="b"> Menguji keamanan dengan simulasi serangan</label><label><input type="radio" name="q1" value="a"> Menambah fitur</label><label><input type="radio" name="q1" value="c"> Mempercepat koneksi</label><label><input type="radio" name="q1" value="d"> Meningkatkan UI</label></div></div>
+      <div class="question"><p>2. Tahapan pertama dalam pentest adalah?</p><div class="options"><label><input type="radio" name="q2" value="c"> Perencanaan & pengumpulan informasi</label><label><input type="radio" name="q2" value="a"> Pelaporan</label><label><input type="radio" name="q2" value="b"> Re-testing</label><label><input type="radio" name="q2" value="d"> Exploitation</label></div></div>
+      <div class="question"><p>3. Tahapan pengumpulan informasi termasuk:</p><div class="options"><label><input type="radio" name="q3" value="a"> Scanning</label><label><input type="radio" name="q3" value="b"> Enumeration</label><label><input type="radio" name="q3" value="c"> Exploit development</label><label><input type="radio" name="q3" value="d"> Reporting</label></div></div>
+      <div class="question"><p>4. Scanning bertujuan untuk:</p><div class="options"><label><input type="radio" name="q4" value="b"> Menemukan port atau layanan terbuka</label><label><input type="radio" name="q4" value="a"> Menyusun laporan</label><label><input type="radio" name="q4" value="c"> Menghapus jejak</label><label><input type="radio" name="q4" value="d"> Membuat exploit</label></div></div>
+      <div class="question"><p>5. Exploitation artinya:</p><div class="options"><label><input type="radio" name="q5" value="c"> Mengeksploitasi celah keamanan</label><label><input type="radio" name="q5" value="a"> Menyimpan logs</label><label><input type="radio" name="q5" value="b"> Menyampaikan laporan</label><label><input type="radio" name="q5" value="d"> Pemindaian otomatis</label></div></div>
+      <div class="question"><p>6. Apa itu post-exploitation?</p><div class="options"><label><input type="radio" name="q6" value="c"> Mengambil data atau memperluas akses</label><label><input type="radio" name="q6" value="a"> Mengumpulkan laporan</label><label><input type="radio" name="q6" value="b"> Menghapus data</label><label><input type="radio" name="q6" value="d"> Memulai scanning</label></div></div>
+      <div class="question"><p>7. Tahapan terakhir dalam pentest adalah?</p><div class="options"><label><input type="radio" name="q7" value="b"> Reporting</label><label><input type="radio" name="q7" value="a"> Exploitation</label><label><input type="radio" name="q7" value="c"> Reconnaissance</label><label><input type="radio" name="q7" value="d"> Remediation</label></div></div>
+      <div class="question"><p>8. Reconnaissance pasif mencakup:</p><div class="options"><label><input type="radio" name="q8" value="c"> Mencari info publik tanpa kontak langsung</label><label><input type="radio" name="q8" value="a"> Scanning port</label><label><input type="radio" name="q8" value="b"> Mengelola exploit</label><label><input type="radio" name="q8" value="d"> Membuat laporan</label></div></div>
+      <div class="question"><p>9. Kenapa pelaksanaan nontargeted scan bisa berbahaya?</p><div class="options"><label><input type="radio" name="q9" value="b"> Menimbulkan gangguan pada sistem</label><label><input type="radio" name="q9" value="a"> Tidak terdeteksi</label><label><input type="radio" name="q9" value="c"> Cepat selesai</label><label><input type="radio" name="q9" value="d"> Murah</label></div></div>
+      <div class="question"><p>10. Apa manfaat re-testing setelah remediation?</p><div class="options"><label><input type="radio" name="q10" value="b"> Memastikan kerentanan telah ditutup</label><label><input type="radio" name="q10" value="a"> Menguji kepatuhan</label><label><input type="radio" name="q10" value="c"> Menambahkan fitur</label><label><input type="radio" name="q10" value="d"> Menghapus logs</label></div></div>
+      <div class="question"><p>11. Perintah dasar nmap 192.168.1.1 akan melakukan?</p><div class="options"><label><input type="radio" name="q11" value="b"> Scan port default TCP</label><label><input type="radio" name="q11" value="a"> Scan OS</label><label><input type="radio" name="q11" value="c"> Scan UDP</label><label><input type="radio" name="q11" value="d"> Bypass firewall</label></div></div>
+      <div class="question"><p>12. Flag -sS di nmap berfungsi untuk?</p><div class="options"><label><input type="radio" name="q12" value="b"> TCP SYN scan</label><label><input type="radio" name="q12" value="a"> UDP scan</label><label><input type="radio" name="q12" value="c"> Ping sweep</label><label><input type="radio" name="q12" value="d"> Aggressive scan</label></div></div>
+      <div class="question"><p>13. Jika ingin memindai semua port gunakan opsi?</p><div class="options"><label><input type="radio" name="q13" value="a"> -p-</label><label><input type="radio" name="q13" value="b"> -F</label><label><input type="radio" name="q13" value="c"> -Pn</label><label><input type="radio" name="q13" value="d"> -A</label></div></div>
+      <div class="question"><p>14. Apa fungsi flag -sU?</p><div class="options"><label><input type="radio" name="q14" value="a"> Scan UDP ports</label><label><input type="radio" name="q14" value="b"> Scan TCP cepat</label><label><input type="radio" name="q14" value="c"> Ping target</label><label><input type="radio" name="q14" value="d"> Baca banner</label></div></div>
+      <div class="question"><p>15. Flag -O digunakan untuk?</p><div class="options"><label><input type="radio" name="q15" value="b"> Deteksi sistem operasi</label><label><input type="radio" name="q15" value="a"> Menampilkan versi layanan</label><label><input type="radio" name="q15" value="c"> Menampilkan semua port</label><label><input type="radio" name="q15" value="d"> Membuat report</label></div></div>
+      <div class="question"><p>16. Untuk mengetahui versi layanan gunakan?</p><div class="options"><label><input type="radio" name="q16" value="a"> -sV</label><label><input type="radio" name="q16" value="b"> -A</label><label><input type="radio" name="q16" value="c"> -Pn</label><label><input type="radio" name="q16" value="d"> -sC</label></div></div>
+      <div class="question"><p>17. Jika nmap -A dijalankan?</p><div class="options"><label><input type="radio" name="q17" value="b"> OS detection + service version + script scan</label><label><input type="radio" name="q17" value="a"> Hanya scanning port</label><label><input type="radio" name="q17" value="c"> Menutup port</label><label><input type="radio" name="q17" value="d"> Jalankan exploit otomatis</label></div></div>
+      <div class="question"><p>18. Opsi -F berfungsi untuk?</p><div class="options"><label><input type="radio" name="q18" value="a"> Fast scan</label><label><input type="radio" name="q18" value="b"> Full scan</label><label><input type="radio" name="q18" value="c"> UDP scan</label><label><input type="radio" name="q18" value="d"> OS detect</label></div></div>
+      <div class="question"><p>19. Apa yang dilakukan banner grabbing?</p><div class="options"><label><input type="radio" name="q19" value="b"> Mengambil info versi aplikasi</label><label><input type="radio" name="q19" value="a"> Menutup port</label><label><input type="radio" name="q19" value="c"> Firewall bypass</label><label><input type="radio" name="q19" value="d"> Debug</label></div></div>
+      <div class="question"><p>20. Alat keamanan untuk eksploitasi setelah scan?</p><div class="options"><label><input type="radio" name="q20" value="b"> Metasploit</label><label><input type="radio" name="q20" value="a"> Wireshark</label><label><input type="radio" name="q20" value="c"> Notepad</label><label><input type="radio" name="q20" value="d"> Ping</label></div></div>
+      <button type="submit" id="quizSubmit" disabled>Submit</button>
+    </form>
+  </div>
+  <div class="container">
+    <h2>Practice</h2>
+    <p>Gunakan nmap. Jawab: port terbuka di domain <b>8.8.8.8</b>? Jika jawabannya <b>00/TCP</b>, masukkan <b>00/TCP</b>.</p>
+    <div class="input-wrapper">
+      <input type="text" id="practiceAnswer" placeholder="Masukkan jawaban..." disabled>
+    </div>
+    <button id="checkBtn" disabled>Check</button>
+  </div>
+  <div class="custom-alert" id="customAlert">
+    <div id="alertMessage"></div>
+    <button onclick="closeAlert()">OK</button>
+  </div>
+  <script>
+    document.addEventListener("contextmenu", e => e.preventDefault());
+    ["copy","cut","paste"].forEach(evt => { document.addEventListener(evt, e => e.preventDefault()); });
+    document.querySelectorAll("*").forEach(el=>{
+      el.style.webkitTapHighlightColor="transparent";
+      el.addEventListener("mousedown", e=>e.preventDefault());
+    });
+
+    function showAlert(message,type="success"){
+      const alertBox=document.getElementById("customAlert");
+      const alertMsg=document.getElementById("alertMessage");
+      alertMsg.innerHTML=message;
+      alertBox.className="custom-alert "+type;
+      alertBox.style.display="block";
+    }
+    function closeAlert(){ document.getElementById("customAlert").style.display="none"; }
+
+    const quizForm=document.getElementById("quizForm");
+    const quizSubmit=document.getElementById("quizSubmit");
+    const practiceAnswer=document.getElementById("practiceAnswer");
+    const checkBtn=document.getElementById("checkBtn");
+
+    quizForm.addEventListener("change",()=>{
+      let answered=0;
+      for(let i=1;i<=20;i++){
+        if(quizForm.querySelector('input[name="q'+i+'"]:checked')) answered++;
+      }
+      quizSubmit.disabled=answered<20;
+    });
+
+    quizForm.addEventListener("submit",e=>{
+      e.preventDefault();
+      let score=0;
+      const kunci={q1:"b",q2:"c",q3:"a",q4:"b",q5:"c",q6:"c",q7:"b",q8:"c",q9:"b",q10:"b",q11:"b",q12:"b",q13:"a",q14:"a",q15:"b",q16:"a",q17:"b",q18:"a",q19:"b",q20:"b"};
+      for(let key in kunci){
+        const chosen=quizForm.querySelector('input[name="'+key+'"]:checked');
+        if(chosen&&chosen.value===kunci[key]) score++;
+      }
+      const nilai=(score/20)*100;
+      if(nilai>=70){
+        showAlert("Selamat! Nilai Anda "+nilai.toFixed(0)+"%. Pencapaian Anda sudah memenuhi standar minimal. Pertahankan semangat dan tingkatkan hasil Anda di masa depan!","success");
+      } else {
+        showAlert("Nilai Anda "+nilai.toFixed(0)+"%. Jangan berkecil hati, tingkatkan usaha belajar Anda. Semangat, setiap latihan akan membuat Anda lebih baik!","fail");
+      }
+      practiceAnswer.disabled=false;
+      checkBtn.disabled=false;
+    });
+
+    checkBtn.addEventListener("click",()=>{
+      if(practiceAnswer.value.trim().toLowerCase()==="43/tcp"){
+        checkBtn.textContent="Submit";
+        checkBtn.onclick=()=>{window.location.href="phaajoaajhsjsgsbsbshshsjdjndndjywxxajdu.html";};
+      } else {
+        showAlert("Jawaban belum tepat, silakan coba lagi.","fail");
+      }
+    });
+  </script>
+  <script>
+(function(){
+  const loc = window.location;
+  // Cari apakah URL berakhiran .html
+  if(/\.html($|\?|#)/i.test(loc.pathname)){
+    // Hapus .html dari pathname
+    const newPath = loc.pathname.replace(/\.html$/i, "");
+    const newUrl = loc.origin + newPath + loc.search + loc.hash;
+    // Ganti URL di address bar tanpa reload
+    history.replaceState({}, "", newUrl);
+  }
+})();
+</script>
+</body>
+</html>

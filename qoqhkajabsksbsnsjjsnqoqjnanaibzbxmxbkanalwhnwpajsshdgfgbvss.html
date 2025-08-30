@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Praktik Nmap</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    overflow-x: hidden;
+    font-family: 'Orbitron', sans-serif;
+    background: linear-gradient(to bottom, #0d0d0d, #1a0f0f, #261a0d, #33261a);
+    color: #f1f1f1;
+  }
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .desc-container {
+    margin-top: 40px;
+    width: 85%;
+    max-width: 800px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 14px;
+    padding: 30px 24px;
+    backdrop-filter: blur(4px);
+    text-align: left;
+    line-height: 1.6em;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.5);
+    position: relative;
+  }
+  .desc-container h2 {
+    margin: 0 0 16px;
+    font-weight: 800;
+    font-size: 1.4rem;
+    color: #00ffc8;
+    letter-spacing: 1px;
+    text-align: center;
+    text-shadow: 0 0 8px rgba(0,255,200,0.6);
+  }
+  .desc-container p {
+    margin: 0 0 14px;
+    font-size: 1rem;
+    font-weight: 500;
+    opacity: 0.95;
+  }
+  .quiz-btn {
+    display: inline-block;
+    margin-left: 12px;
+    padding: 6px 14px;
+    border: none;
+    border-radius: 10px;
+    background: #ff4d4d;
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .quiz-btn:hover {
+    background: #e60000;
+    transform: scale(1.05);
+  }
+  .quiz-btn:active {
+    transform: scale(0.95);
+  }
+  .download-btn {
+    display: block;
+    margin: 26px auto 6px;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 12px;
+    background: #00ffc8;
+    color: #000;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+  }
+  .download-btn:hover {
+    background: #00e6b3;
+    transform: scale(1.05);
+  }
+  .download-btn:active {
+    transform: scale(0.96);
+  }
+  .running-text-container {
+    margin-top: 40px;
+    margin-bottom: 20px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 14px;
+    padding: 10px 14px;
+    backdrop-filter: blur(4px);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.5);
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  .running-text {
+    display: inline-block;
+    padding-left: 100%;
+    animation: scrollText 20s linear infinite;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #ff4d4d;
+  }
+  @keyframes scrollText {
+    from { transform: translateX(0%); }
+    to { transform: translateX(-100%); }
+  }
+</style>
+</head>
+<body>
+  <div class="desc-container">
+    <h2>⚡ Saatnya Kita Praktekkan Nmap</h2>
+    <p>
+      Sekarang saatnya Anda mempraktikkan penggunaan <strong>Nmap</strong>. Sebelum menjalankan tool ini, tentukan terlebih dahulu website atau host yang ingin Anda analisis. 
+      Saran untuk latihan awal, gunakan target yang legal dan aman, misalnya: <em>scanme.nmap.org</em> (host resmi yang memang disediakan oleh pengembang Nmap untuk belajar).
+    </p>
+    <p>
+      Nmap merupakan salah satu tool terpenting dalam dunia pentesting untuk melakukan network scanning dan enumerasi port. Tool ini dapat dijalankan baik di <strong>Termux</strong> maupun di <strong>Kali Linux</strong>.
+    </p>
+    <p>
+      Untuk memudahkan pembelajaran, di bawah ini telah disiapkan sebuah script Python sederhana yang bisa Anda gunakan secara gratis. Script ini akan membantu Anda memahami cara dasar menggunakan Nmap 
+      <button class="quiz-btn" onclick="location.href='quuuuuuuziizzzzzzzzzzjjjj.html'">Quiz</button>
+    </p>
+    <p>
+      Cara mendapatkan script ini: tekan tombol download di bawah. Script akan otomatis menyalin perintah <code>wget</code> yang bisa langsung Anda jalankan di Termux atau Kali Linux.
+    </p>
+    <p>
+      Setelah file berhasil diunduh, jalankan dengan perintah:
+      <br><code>python nmap.py</code>
+    </p>
+    <button class="download-btn" onclick="copyCommand()">Download Nmap Tool</button>
+  </div>
+
+  <div class="running-text-container">
+    <span class="running-text">kursus ini sepenuhnya dibuat oleh Raffael, dilarang keras memanipulasi page login untuk mendapatkan akses ke sini! ----------------------------------------- selamat belajar!</span>
+  </div>
+
+<script>
+function copyCommand() {
+  const command = 'pkg update && pkg upgrade -y && pkg install wget && wget https://raw.githubusercontent.com/TheRealRafael00/my-web/refs/heads/main/nmap.py && pkg install nmap && clear && echo ketik "python nmap.py" untuk menjalankan ';
+  navigator.clipboard.writeText(command).then(()=>{
+    alert("Perintah berhasil disalin ke clipboard:\n\n" + command + "\n\nJalankan perintah ini di Termux/Kali Linux untuk mengunduh tool.");
+  }).catch(err=>{
+    alert("Gagal menyalin perintah: " + err);
+  });
+}
+
+// Batasi scroll hanya sampai running text
+document.addEventListener("scroll", () => {
+  const runBox = document.querySelector(".running-text-container");
+  if (!runBox) return;
+  const maxScroll = runBox.offsetTop;
+  if (window.scrollY > maxScroll) {
+    window.scrollTo(0, maxScroll);
+  }
+});
+</script>
+<script>
+// Anti highlight biru full power
+document.addEventListener("DOMContentLoaded", () => {
+  // Inject CSS global untuk matikan semua highlight
+  const style = document.createElement("style");
+  style.innerHTML = `
+    * {
+      -webkit-tap-highlight-color: transparent !important;
+      -webkit-focus-ring-color: transparent !important;
+      outline: none !important;
+      user-select: none !important;
+      -webkit-user-select: none !important;
+      -ms-user-select: none !important;
+    }
+  `;
+  document.head.appendChild(style);
+
+  // Cegah semua text selection event
+  document.addEventListener("selectstart", e => e.preventDefault());
+  document.addEventListener("mousedown", e => {
+    if (e.detail > 1) e.preventDefault(); // cegah double click highlight
+  });
+
+  // Cegah focus di elemen interaktif
+  document.addEventListener("focus", e => e.target.blur(), true);
+});
+</script>
+<script>
+(function(){
+  const loc = window.location;
+  // Cari apakah URL berakhiran .html
+  if(/\.html($|\?|#)/i.test(loc.pathname)){
+    // Hapus .html dari pathname
+    const newPath = loc.pathname.replace(/\.html$/i, "");
+    const newUrl = loc.origin + newPath + loc.search + loc.hash;
+    // Ganti URL di address bar tanpa reload
+    history.replaceState({}, "", newUrl);
+  }
+})();
+</script>
+</body>
+</html>

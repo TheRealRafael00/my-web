@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Video Card</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: linear-gradient(to bottom, #0d0d0d, #1a0f0f, #261a0d, #33261a);
+    font-family: 'Orbitron', sans-serif;
+    color: #f1f1f1;
+  }
+  .card {
+    margin-top: 40px;
+    width: 90%;
+    max-width: 800px;
+    background: #111;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.6);
+    transition: height 0.3s ease;
+  }
+  iframe {
+    width: 100%;
+    border: none;
+    display: block;
+  }
+  .desc-container {
+    margin-top: 20px;
+    width: 80%;
+    max-width: 700px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 14px;
+    padding: 18px 20px;
+    backdrop-filter: blur(4px);
+    text-align: center;
+    line-height: 1.5em;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.5);
+  }
+  .desc-container h2 {
+    margin: 0 0 12px;
+    font-weight: 800;
+    font-size: 1.3rem;
+    color: #00ffc8;
+    letter-spacing: 1px;
+    text-shadow: 0 0 8px rgba(0,255,200,0.6);
+  }
+  .desc-container p {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 500;
+    opacity: 0.9;
+  }
+  .running-text-container {
+    margin-top: auto;
+    margin-bottom: 20px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 14px;
+    padding: 10px 14px;
+    backdrop-filter: blur(4px);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.5);
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  .running-text {
+    display: inline-block;
+    padding-left: 100%;
+    animation: scrollText 20s linear infinite;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #ff4d4d;
+  }
+  @keyframes scrollText {
+    from { transform: translateX(0%); }
+    to { transform: translateX(-100%); }
+  }
+</style>
+</head>
+<body>
+  <div class="card" id="card">
+    <iframe id="ytplayer"
+      src="https://www.youtube.com/embed/NYgDzO8iQJ0?enablejsapi=1&autoplay=1&controls=1&modestbranding=1&rel=0&iv_load_policy=3&cc_load_policy=1&cc_lang_pref=id&hl=id&fs=0&disablekb=0"
+      allow="autoplay; encrypted-media"
+      allowfullscreen>
+    </iframe>
+  </div>
+
+  <div class="desc-container">
+    <h2>⚡ Penting untuk Anda!</h2>
+    <p>
+      Silakan tonton video ini hingga selesai. Setelah video berakhir, akan ada <strong>quiz</strong> yang berhubungan langsung dengan materi di dalamnya.  
+      Pertanyaan pada quiz tidak dapat dijawab menggunakan AI, sehingga partisipasi penuh Anda sangat penting demi kelancaran serta pemahaman yang mendalam dalam proses pembelajaran ini.
+    </p>
+  </div>
+
+  <div class="running-text-container">
+    <span class="running-text">kursus ini sepenuhnya dibuat oleh Raffael, dilarang keras memanipulasi page login untuk mendapatkan akses ke sini! ----------------------------------------- selamat belajar!</span>
+  </div>
+
+<script>
+  var tag = document.createElement('script');
+  tag.src = "https://www.youtube.com/iframe_api";
+  document.body.appendChild(tag);
+
+  var player;
+  function onYouTubeIframeAPIReady() {
+    player = new YT.Player('ytplayer', {
+      events: {
+        'onReady': onPlayerReady,
+        'onStateChange': onPlayerStateChange
+      }
+    });
+  }
+
+  function onPlayerReady(event) {
+    event.target.playVideo();
+    resizeVideo();
+    window.addEventListener('resize', resizeVideo);
+  }
+
+  function resizeVideo() {
+    const card = document.getElementById('card');
+    const iframe = document.getElementById('ytplayer');
+    const width = card.clientWidth;
+    const height = width * 9 / 16;
+    iframe.style.height = height + "px";
+  }
+
+  function onPlayerStateChange(event) {
+    if (event.data === YT.PlayerState.ENDED) {
+      window.location.href = "qoqhkajabsksbsnsjjsnqoqjnanaibzbxmxbkanalwhnwpajsshdgfgbvss.html";
+    }
+  }
+</script>
+<script>
+  function disableScroll() {
+    window.scrollTo(0, 0);
+  }
+  window.addEventListener("scroll", disableScroll);
+  document.body.style.overflow = "hidden";
+  document.documentElement.style.overflow = "hidden";
+</script>
+<script>
+// Anti highlight biru full power
+document.addEventListener("DOMContentLoaded", () => {
+  // Inject CSS global untuk matikan semua highlight
+  const style = document.createElement("style");
+  style.innerHTML = `
+    * {
+      -webkit-tap-highlight-color: transparent !important;
+      -webkit-focus-ring-color: transparent !important;
+      outline: none !important;
+      user-select: none !important;
+      -webkit-user-select: none !important;
+      -ms-user-select: none !important;
+    }
+  `;
+  document.head.appendChild(style);
+
+  // Cegah semua text selection event
+  document.addEventListener("selectstart", e => e.preventDefault());
+  document.addEventListener("mousedown", e => {
+    if (e.detail > 1) e.preventDefault(); // cegah double click highlight
+  });
+
+  // Cegah focus di elemen interaktif
+  document.addEventListener("focus", e => e.target.blur(), true);
+});
+</script>
+<script>
+(function(){
+  const loc = window.location;
+  // Cari apakah URL berakhiran .html
+  if(/\.html($|\?|#)/i.test(loc.pathname)){
+    // Hapus .html dari pathname
+    const newPath = loc.pathname.replace(/\.html$/i, "");
+    const newUrl = loc.origin + newPath + loc.search + loc.hash;
+    // Ganti URL di address bar tanpa reload
+    history.replaceState({}, "", newUrl);
+  }
+})();
+</script>
+</body>
+</html>
