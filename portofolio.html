@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ELL PORTOFOLIO</title>
+  <link href="https://fonts.cdnfonts.com/css/minecraft-4" rel="stylesheet">
+  <link href="https://fonts.cdnfonts.com/css/zombie" rel="stylesheet">
+  <link href="https://fonts.cdnfonts.com/css/mario-bros" rel="stylesheet">
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      min-height: 100%;
+      background: linear-gradient(
+        to bottom,
+        #000000 0%,
+        #0a1a2f 15%,
+        #1c3b5d 30%,
+        #3f7fbf 45%,
+        #87ceeb 60%,
+        #ffd27f 75%,
+        #ff4500 90%,
+        #0a1a2f 100%
+      );
+      color: red;
+    }
+    .title-bar {
+      background-color: #000000;
+      height: 60px;
+      box-shadow: 0 0 10px red;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      z-index: 1000;
+    }
+    .title {
+      font-family: 'Minecraft', sans-serif;
+      font-size: 28px;
+      color: red;
+    }
+    .menu-button {
+      font-family: 'Minecraft', sans-serif;
+      font-size: 28px;
+      cursor: pointer;
+      user-select: none;
+      color: red;
+    }
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background: transparent;
+      display: none;
+      z-index: 999;
+    }
+    .side-menu {
+      position: fixed;
+      top: 0;
+      right: -50%;
+      width: 50%;
+      height: 100%;
+      background: #000000;
+      box-shadow: none;
+      transition: right 0.4s ease, box-shadow 0.4s ease;
+      z-index: 1001;
+      display: flex;
+      flex-direction: column;
+      padding-top: 80px;
+      box-sizing: border-box;
+    }
+    .side-menu.active {
+      right: 0;
+      box-shadow: -5px 0 15px red;
+    }
+    .overlay.active {
+      display: block;
+    }
+    .menu-link {
+      font-family: 'Zombie', sans-serif;
+      font-size: 26px;
+      color: red;
+      text-decoration: none;
+      padding: 15px 25px;
+      transition: background 0.3s;
+    }
+    .menu-link:hover {
+      background: rgba(255, 0, 0, 0.2);
+    }
+    .profile-section {
+      margin-top: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: left;
+    }
+    .profile-section img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      margin-right: 20px;
+    }
+    .profile-info {
+      font-family: 'Mario Bros', sans-serif;
+      color: red;
+    }
+    .profile-info h2 {
+      margin: 0;
+      font-size: 28px;
+      color: red;
+    }
+    .profile-info p {
+      margin: 5px 0;
+      font-size: 18px;
+      color: red;
+    }
+    .description {
+      max-width: 800px;
+      margin: 40px auto;
+      font-family: 'Mario Bros', sans-serif;
+      font-size: 18px;
+      line-height: 1.6;
+      color: red;
+      text-align: center;
+      padding: 0 20px;
+      font-weight: bold;
+    }
+    .certificates {
+      max-width: 1000px;
+      margin: 40px auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 0 20px 60px;
+    }
+.certificate-card {
+  position: relative;
+  cursor: pointer;
+  background: #111;
+  border: 2px solid red;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgba(255,0,0,0.5);
+  text-align: center;
+  padding: 15px;
+  transition: transform 0.4s ease;
+}
+
+.certificate-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  filter: grayscale(100%);
+  transition: filter 0.6s ease;
+}
+
+/* overlay awal: standby di kanan */
+.certificate-card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to left, rgba(255,255,255,0.4), transparent);
+  z-index: 2;
+  pointer-events: none;
+  transform: translateX(100%);
+  transition: transform 0.8s ease;
+}
+
+/* aktif → sweep jalan dari kanan ke kiri */
+.certificate-card.active::after {
+  transform: translateX(-100%);
+}
+
+/* aktif → gambar berwarna + scale */
+.certificate-card.active img {
+  filter: grayscale(0%);
+}
+
+.certificate-card.active {
+  transform: scale(1.05);
+}
+
+/* nonaktif → kembali kecil & abu-abu */
+.certificate-card:not(.active) {
+  transform: scale(1);
+}
+
+    .certificate-card h3, .certificate-card p {
+      margin: 5px 0;
+      font-family: 'Mario Bros', sans-serif;
+      color: red;
+    }
+    /* awalnya semua sertifikat abu-abu */
+
+
+
+  </style>
+</head>
+<body>
+  <div class="title-bar">
+    <div class="title">ell portofolio</div>
+    <div class="menu-button" id="menuBtn">&#9776;</div>
+  </div>
+
+  <div class="overlay" id="overlay"></div>
+  <div class="side-menu" id="sideMenu">
+    <a href="home.html" class="menu-link">Home</a>
+    <a href="course.html" class="menu-link">Course</a>
+    <a href="produk.html" class="menu-link">Produk</a>
+  </div>
+
+  <div class="profile-section">
+    <img src="i.png" alt="Profile Picture">
+    <div class="profile-info">
+      <h2>Raffael Putra Hermawan</h2>
+      <p>Bidang: Ethical Hacker</p>
+      <p>Umur: 15</p>
+    </div>
+  </div>
+
+  <div class="description">
+  Saya adalah <strong>Raffael Putra Hermawan</strong>, seorang pelajar berusia 15 tahun dengan pengalaman lebih dari 4 tahun dalam dunia teknologi dan keamanan siber. Minat saya berfokus pada bidang <strong>ethical hacking</strong>, serta eksplorasi sistem operasi berbasis keamanan seperti <strong>Kali Linux</strong>.<br><br>
+  
+  Saat ini saya menempuh pendidikan di <strong>SMA Negeri 14 Depok</strong>, kelas X.3, dan telah berhasil memperoleh lebih dari <strong>22 sertifikasi course serta kegiatan</strong> yang memperkuat keahlian saya.<br><br>
+  
+  Dengan hobi dan semangat belajar seperti seorang hacker profesional, saya berkomitmen untuk terus mengembangkan keterampilan, khususnya dalam bidang keamanan siber modern.<br><br>
+  
+  Ke depan, saya memiliki cita-cita untuk berkarier sebagai <strong>Cybersecurity Specialist Red Team</strong> di perusahaan teknologi terkemuka Amerika Serikat, atau menjadi bagian dari <strong>tim keamanan siber Gedung Putih (White House)</strong> dalam melindungi infrastruktur digital negara. Selain itu, saya juga terbuka untuk berkontribusi sebagai bagian dari <strong>unit siber TNI-Polri</strong>, guna memperkuat pertahanan siber Indonesia. Visi ini menjadi motivasi utama saya dalam terus mengasah keahlian teknis, kedisiplinan, dan etika profesional dalam dunia keamanan siber.
+</div>
+
+  <div class="certificates">
+    <div class="certificate-card">
+      <img src="my.jpg" alt="Certificate 1">
+      <h3>CC Course Conclusion</h3>
+      <p>ISC2</p>
+    </div>
+    <div class="certificate-card">
+      <img src="myy.jpg" alt="Certificate 2">
+      <h3>clasical cryptography for begginer</h3>
+      <p>Cyberacademy.id</p>
+    </div>
+    <div class="certificate-card">
+      <img src="myyy.jpg" alt="Certificate 3">
+      <h3>introduction to darkweb, anonymity and cryptocurrency</h3>
+      <p>EC-COUNCIL</p>
+    </div>
+    <div class="certificate-card">
+      <img src="myyyy.jpg" alt="Certificate 4">
+      <h3>ChatGPT for cybersecurity</h3>
+      <p>simplilearn</p>
+    </div>
+    <div class="certificate-card">
+      <img src="myyyyy.jpg" alt="Certificate 5">
+      <h3>cybersecurity essentials dengan kali linux</h3>
+      <p>BISA AI</p>
+    </div>
+    <div class="certificate-card">
+      <img src="myyyyyy.jpg" alt="Certificate 6">
+      <h3>cyber threat inteligence 101</h3>
+      <p>arcX</p>
+    </div>
+    <div class="certificate-card">
+      <img src="myyyyyyy.jpg" alt="Certificate 7">
+      <h3>cybersecurity fundamentals</h3>
+      <p>IBM Skills Build</p>
+    </div>
+    <div class="certificate-card">
+      <img src="myyyyyyyy.jpg" alt="Certificate 8">
+      <h3>CompTIA Security</h3>
+      <p>cursa</p>
+    </div>
+    <div class="certificate-card">
+      <img src="myyyyyyyyy.jpg" alt="Certificate 9">
+      <h3>etichal hacker</h3>
+      <p>Cisco Networking Academy</p>
+    </div>
+    <div class="certificate-card">
+      <img src="myyyyyyyyyy.jpg" alt="Certificate 10">
+      <h3>etichal hacking: introduction</h3>
+      <p>Cybrary</p>
+    </div>
+    <div class="certificate-card">
+      <img src="myyyyyyyyyyy.jpg" alt="Certificate 11">
+      <h3>introduction to cybersecurity</h3>
+      <p>Cisco Networking Academy</p>
+    </div>
+    <div class="certificate-card">
+      <img src="myyyyyyyyyyyy.jpg" alt="Certificate 12">
+      <h3>cybersecurity for bussiness</h3>
+      <p>EC-COUNCIL</p>
+    </div>
+    <div class="certificate-card">
+      <img src="myyyyyyyyyyyyy.jpg" alt="Certificate 13">
+      <h3>introduction to cybersecurity</h3>
+      <p>Cyberacademy.id</p>
+    </div>
+    <div class="certificate-card">
+      <img src="myyyyyyyyyyyyyy.jpg" alt="Certificate 14">
+      <h3>IT Security by google careers</h3>
+      <p>cursa</p>
+    </div>
+    <div class="certificate-card">
+      <img src="myyyyyyyyyyyyyyy.jpg" alt="Certificate 15">
+      <h3>google analythic certification</h3>
+      <p>Google</p>
+    </div>
+    <div class="certificate-card">
+      <img src="myyyyyyyyyyyyyyyy.jpg" alt="Certificate 16">
+      <h3>Fortinet certified associate in cybersecurity</h3>
+      <p>Fortinet</p>
+    </div>
+    <div class="certificate-card">
+      <img src="myyyyyyyyyyyyyyyyy.jpg" alt="Certificate 17">
+      <h3>prompt engineer</h3>
+      <p>codecademy</p>
+    </div>
+    <div class="certificate-card">
+      <img src="myyyyyyyyyyyyyyyyyy.jpg" alt="Certificate 18">
+      <h3>DebSecOps In AWS Course</h3>
+      <p>codecademy</p>
+    </div>
+    <div class="certificate-card">
+      <img src="myyyyyyyyyyyyyyyyyyy.jpg" alt="Certificate 19">
+      <h3>securing and protect data</h3>
+      <p>Amazon</p>
+    </div>
+    <div class="certificate-card">
+      <img src="myyyyyyyyyyyyyyyyyyyy.jpg" alt="Certificate 20">
+      <h3>etichal hacker for dummies</h3>
+      <p>Komdigi/kominfo</p>
+    </div>
+    <div class="certificate-card">
+      <img src="myyyyyyyyyyyyyyyyyyyyy.jpg" alt="Certificate 21">
+      <h3>CyberSecurity</h3>
+      <p>ADBI INSTITUTE</p>
+    </div>
+    <div class="certificate-card">
+      <img src="myyyyyyyyyyyyyyyyyyyyyy.jpg" alt="Certificate 22">
+      <h3>Certificate Of Participation</h3>
+      <p>HackerVerse/EC-COUNCIL</p>
+    </div>
+  </div>
+<!-- Tambahkan kode ini SETELAH sertifikat ke-22, masih di dalam container utama (sebelum </body>) -->
+
+<div class="stats-section">
+  <h2>Skill Mastery Statistics</h2>
+  <div class="stats-container">
+    <div class="stat-circle" data-percent="86" style="--clr:#3498db;">
+      <div class="inner-circle">
+        <span>0%</span>
+        <p>Cybersecurity</p>
+      </div>
+    </div>
+    <div class="stat-circle" data-percent="30" style="--clr:#2ecc71;">
+      <div class="inner-circle">
+        <span>0%</span>
+        <p>Linux</p>
+      </div>
+    </div>
+    <div class="stat-circle" data-percent="18" style="--clr:#f39c12;">
+      <div class="inner-circle">
+        <span>0%</span>
+        <p>Web Security</p>
+      </div>
+    </div>
+    <div class="stat-circle" data-percent="67" style="--clr:#9b59b6;">
+      <div class="inner-circle">
+        <span>0%</span>
+        <p>Networking</p>
+      </div>
+    </div>
+    <div class="stat-circle" data-percent="80" style="--clr:#1abc9c;">
+      <div class="inner-circle">
+        <span>0%</span>
+        <p>Forensics</p>
+      </div>
+    </div>
+    <div class="stat-circle" data-percent="93" style="--clr:#e67e22;">
+      <div class="inner-circle">
+        <span>0%</span>
+        <p>Termux</p>
+      </div>
+    </div>
+    <div class="stat-circle" data-percent="70" style="--clr:#e84393;">
+      <div class="inner-circle">
+        <span>0%</span>
+        <p>Programming</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.stats-section {
+  text-align: center;
+  margin-top: 60px;
+}
+.stats-section h2 {
+  color: #fff;
+  margin-bottom: 30px;
+  font-size: 24px;
+}
+.stats-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 40px;
+}
+.stat-circle {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  background: conic-gradient(#333 100%, #333 0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.stat-circle .inner-circle {
+  width: 110px;
+  height: 110px;
+  background: #111;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.stat-circle span {
+  color: #fff;
+  font-size: 20px;
+  font-weight: bold;
+}
+.stat-circle p {
+  margin: 0;
+  color: #aaa;
+  font-size: 14px;
+}
+.contact-container {
+  width: 65%;                  /* lebih kecil dari sertifikat biar ga kepanjangan */
+  max-width: 700px;            /* batasi biar rapih */
+  margin: 40px auto;           /* center posisi */
+  padding: 20px;
+  background: #000;
+  border-radius: 20px;
+  display: flex;
+  gap: 25px;
+  align-items: center;
+  justify-content: center;     /* logo di tengah horizontal */
+  box-shadow: 0 0 15px rgba(255,0,0,0.3);
+}
+
+.contact-container .contact-link img {
+  width: 40px;   /* ukuran pas */
+  height: 40px;
+  transition: transform 0.25s ease, filter 0.25s ease;
+  filter: invert(100%); /* logo putih */
+  cursor: pointer;
+}
+
+.contact-container .contact-link img:hover {
+  transform: scale(1.15);
+  filter: invert(38%) sepia(94%) saturate(7076%) hue-rotate(356deg) brightness(102%) contrast(117%);
+}
+</style>
+<!-- Kontak Section -->
+<div class="contact-container">
+  <a href="https://wa.me/+6285156316569" target="_blank" class="contact-link">
+    <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/whatsapp.svg" alt="WhatsApp">
+  </a>
+  <a href="https://www.tiktok.com/@if.no.username" target="_blank" class="contact-link">
+    <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/tiktok.svg" alt="TikTok">
+  </a>
+  <a href="https://t.me/mumyzR" target="_blank" class="contact-link">
+    <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/telegram.svg" alt="Telegram">
+  </a>
+</div>
+<script>
+const circles = document.querySelectorAll('.stat-circle');
+const activeAnimations = new Map();
+
+function animateCircle(circle, targetPercent, reverse = false) {
+  let current = reverse ? parseInt(circle.querySelector('span').textContent) : 0;
+  const span = circle.querySelector('span');
+  const clr = getComputedStyle(circle).getPropertyValue('--clr');
+
+  function update() {
+    const angle = (current / 100) * 360;
+    circle.style.background = `conic-gradient(${clr} ${angle}deg, #333 ${angle}deg)`;
+    span.textContent = current + "%";
+  }
+
+  clearInterval(activeAnimations.get(circle));
+  let interval = setInterval(() => {
+    if ((!reverse && current >= targetPercent) || (reverse && current <= 0)) {
+      clearInterval(interval);
+    } else {
+      current += reverse ? -1 : 1;
+      update();
+    }
+  }, 15);
+  activeAnimations.set(circle, interval);
+}
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    const circle = entry.target;
+    const targetPercent = parseInt(circle.getAttribute('data-percent'));
+    if (entry.isIntersecting) {
+      animateCircle(circle, targetPercent, false);
+    } else {
+      animateCircle(circle, 0, true);
+    }
+  });
+}, { threshold: 0.6 });
+
+circles.forEach(circle => observer.observe(circle));
+</script>
+  <script>
+    const menuBtn = document.getElementById("menuBtn");
+    const sideMenu = document.getElementById("sideMenu");
+    const overlay = document.getElementById("overlay");
+
+    menuBtn.addEventListener("click", () => {
+      sideMenu.classList.add("active");
+      overlay.classList.add("active");
+    });
+
+    overlay.addEventListener("click", () => {
+      sideMenu.classList.remove("active");
+      overlay.classList.remove("active");
+    });
+  </script>
+  <script>
+  // ambil semua kartu sertifikat
+  const certs = document.querySelectorAll('.certificate-card');
+  
+  certs.forEach(card => {
+    card.addEventListener('click', () => {
+      // toggle class active biar bisa klik berulang
+      card.classList.toggle('active');
+    });
+  });
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  // Inject CSS supaya highlight biru default ilang
+  const style = document.createElement("style");
+  style.innerHTML = `
+    * {
+      -webkit-tap-highlight-color: transparent; /* hapus tap highlight di mobile */
+      -webkit-focus-ring-color: transparent;    /* hapus ring fokus bawaan */
+      outline: none !important;                 /* pastikan gaada border biru */
+    }
+  `;
+  document.head.appendChild(style);
+
+  // Biar element klik-able (img, a, button, dll) ga ninggalin fokus
+  document.body.addEventListener("mousedown", e => {
+    if (e.target instanceof HTMLElement) {
+      e.target.blur();
+    }
+  });
+  document.body.addEventListener("touchstart", e => {
+    if (e.target instanceof HTMLElement) {
+      e.target.blur();
+    }
+  });
+});
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  // Bikin elemen audio tersembunyi
+  const audio = document.createElement("audio");
+  audio.src = "ryna.mp3";   // pastiin file ryna.mp3 ada di folder yg sama
+  audio.loop = true;        // biar muter terus
+  audio.preload = "auto";   // load duluan
+  document.body.appendChild(audio);
+
+  // Handler untuk mulai musik sekali aja
+  const startMusic = () => {
+    audio.play().catch(err => {
+      console.log("Audio tidak bisa diputar otomatis:", err);
+    });
+    // Hapus semua listener biar ga boros
+    document.removeEventListener("click", startMusic);
+    document.removeEventListener("scroll", startMusic);
+    document.removeEventListener("mousemove", startMusic);
+    document.removeEventListener("keydown", startMusic);
+    document.removeEventListener("touchstart", startMusic);
+  };
+
+  // Pasang listener ke semua jenis interaksi user
+  document.addEventListener("click", startMusic);
+  document.addEventListener("scroll", startMusic);
+  document.addEventListener("mousemove", startMusic);
+  document.addEventListener("keydown", startMusic);
+  document.addEventListener("touchstart", startMusic);
+});
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  let path = window.location.pathname;
+
+  // Kalau URL berakhiran .html → redirect ke versi tanpa .html
+  if (path.endsWith(".html")) {
+    let cleanPath = path.replace(/\.html$/, "");
+    window.history.replaceState(null, "", cleanPath + window.location.search + window.location.hash);
+  }
+
+  // Router mini: biar kalau user akses tanpa .html tetap buka file html yang sesuai
+  // Misal /about → load about.html, /contact → load contact.html
+  const fixLinks = () => {
+    document.querySelectorAll("a[href]").forEach(link => {
+      let href = link.getAttribute("href");
+      if (href && !href.includes("://") && !href.includes(".html") && !href.startsWith("#")) {
+        link.addEventListener("click", e => {
+          e.preventDefault();
+          fetch(href + ".html")
+            .then(res => res.text())
+            .then(html => {
+              document.open();
+              document.write(html);
+              document.close();
+              window.history.pushState({}, "", href);
+            })
+            .catch(err => console.error("Halaman tidak ditemukan:", err));
+        });
+      }
+    });
+  };
+
+  fixLinks();
+
+  // Supaya tombol back/forward browser tetap jalan
+  window.addEventListener("popstate", () => {
+    location.reload();
+  });
+});
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  // Deteksi user agent
+  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+  if (!isMobile) {
+    // Kalau bukan HP → redirect ke portofolioX.html
+    window.location.href = "portofolioX.html";
+  }
+});
+</script>
+</body>
+</html>
