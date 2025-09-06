@@ -302,5 +302,71 @@ document.addEventListener("mousedown", function(e) {
   }
 });
 </script>
+  <script>
+(function () {
+  'use strict';
+
+  // daftar ekstensi umum yang akan disembunyikan
+  const EXTENSIONS = [
+    'html','htm','php','asp','aspx','jsp',
+    'json','xml','txt','md','js','css'
+  ];
+
+  function getFilenameFromPath(pathname) {
+    const m = pathname.match(/\/([^\/?#]+)$/);
+    if (!m) return null;
+    const name = m[1];
+    const dot = name.lastIndexOf('.');
+    if (dot === -1) return null;
+    const ext = name.slice(dot + 1).toLowerCase();
+    if (EXTENSIONS.includes(ext)) return name;
+    return null;
+  }
+
+  function hideFilenameInUrl() {
+    const pathname = location.pathname;
+    const filename = getFilenameFromPath(pathname);
+    if (!filename) return;
+
+    // bikin URL baru tanpa nama file
+    const dir = pathname.slice(0, pathname.lastIndexOf('/') + 1) || '/';
+    const newUrl = dir + location.search + location.hash;
+
+    try {
+      history.replaceState(history.state, document.title, newUrl);
+    } catch (e) {
+      console.warn('Gagal hide filename:', e);
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', hideFilenameInUrl);
+
+  // kalau halaman udah loaded sebelum script masuk
+  if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    hideFilenameInUrl();
+  }
+})();
+  </script>
+  <script>
+(function () {
+  'use strict';
+
+  // deteksi mobile / tablet / iPad
+  function isMobileOrTablet() {
+    const ua = navigator.userAgent.toLowerCase();
+    return /android|iphone|ipod|ipad|tablet|iemobile|wpdesktop|blackberry|opera mini/.test(ua);
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    // kalau BUKAN mobile/tablet (berarti PC/laptop)
+    if (!isMobileOrTablet()) {
+      // kalau belum ada "indexx.html" di URL → redirect ke indexx.html
+      if (!/indexx\.html$/i.test(location.pathname)) {
+        location.href = 'indexx.html';
+      }
+    }
+  });
+})();
+  </script>
 </body>
 </html>
