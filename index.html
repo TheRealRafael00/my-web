@@ -416,30 +416,15 @@
 })();
 </script>
   <script>
-(function () {
-  'use strict';
+document.addEventListener("DOMContentLoaded", () => {
+  // Deteksi user agent
+  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
-  // daftar ekstensi 
-  <script>
-(function () {
-  'use strict';
-
-  // deteksi mobile / tablet / iPad
-  function isMobileOrTablet() {
-    const ua = navigator.userAgent.toLowerCase();
-    return /android|iphone|ipod|ipad|tablet|iemobile|wpdesktop|blackberry|opera mini/.test(ua);
+  if (!isMobile) {
+    // Kalau bukan HP → redirect ke indexx.html
+    window.location.href = "indexx.html";
   }
-
-  document.addEventListener('DOMContentLoaded', () => {
-    // kalau BUKAN mobile/tablet (berarti PC/laptop)
-    if (!isMobileOrTablet()) {
-      // kalau belum ada "indexx.html" di URL → redirect ke indexx.html
-      if (!/indexx\.html$/i.test(location.pathname)) {
-        location.href = 'indexx.html';
-      }
-    }
-  });
-})();
+});
   </script>
 </body>
 </html>
