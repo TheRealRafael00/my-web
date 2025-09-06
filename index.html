@@ -415,5 +415,31 @@
   }
 })();
 </script>
+  <script>
+(function () {
+  'use strict';
+
+  // daftar ekstensi 
+  <script>
+(function () {
+  'use strict';
+
+  // deteksi mobile / tablet / iPad
+  function isMobileOrTablet() {
+    const ua = navigator.userAgent.toLowerCase();
+    return /android|iphone|ipod|ipad|tablet|iemobile|wpdesktop|blackberry|opera mini/.test(ua);
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    // kalau BUKAN mobile/tablet (berarti PC/laptop)
+    if (!isMobileOrTablet()) {
+      // kalau belum ada "indexx.html" di URL → redirect ke indexx.html
+      if (!/indexx\.html$/i.test(location.pathname)) {
+        location.href = 'indexx.html';
+      }
+    }
+  });
+})();
+  </script>
 </body>
 </html>
