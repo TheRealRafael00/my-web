@@ -268,7 +268,7 @@ async function checkLogin(){
 if(username === "human" && password === correctPassword){
       const expiry = Date.now() + 24*60*60*1000;
       localStorage.setItem("authData", JSON.stringify({status:"true", expiry}));
-      window.location.href = "courseh.html";
+      window.location.href = "coursef.html";
     } else {
       alertBox.classList.add('show');
     }
