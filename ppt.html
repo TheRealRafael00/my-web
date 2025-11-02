@@ -282,5 +282,26 @@ window.addEventListener('keydown', e=>{ if(e.key==='ArrowRight') next(); else if
 let startX = null; slidesEl.parentElement.addEventListener('touchstart', e=> startX = e.touches[0].clientX ); slidesEl.parentElement.addEventListener('touchend', e=>{ if(startX==null) return; const dx = e.changedTouches[0].clientX - startX; if(dx<-40) next(); if(dx>40) prev(); startX=null; });
 window.addEventListener('resize', update); update();
 </script>
+<script>
+if (/Mobi|Android|iPhone|iPad|Tablet|iPod/i.test(navigator.userAgent)) {
+  document.body.innerHTML = `
+    <div style="
+      background:black;
+      color:white;
+      height:100vh;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      text-align:center;
+      font-family:Poppins,Arial;
+    ">
+      <h1 style="font-size:64px;margin:0;">403</h1>
+      <p style="font-size:18px;margin-top:12px;">Akses Dilarang</p>
+      <p style="font-size:14px;opacity:.8;">Halaman ini tidak boleh dibuka di perangkat handphone atau tablet</p>
+    </div>
+  `;
+}
+</script>
 </body>
 </html>
