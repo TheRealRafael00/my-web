@@ -283,12 +283,19 @@ let startX = null; slidesEl.parentElement.addEventListener('touchstart', e=> sta
 window.addEventListener('resize', update); update();
 </script>
 <script>
-if (/Mobi|Android|iPhone|iPad|Tablet|iPod/i.test(navigator.userAgent)) {
+function isMobile() {
+  const ua = navigator.userAgent || navigator.vendor || window.opera
+  const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0
+  const smallScreen = window.matchMedia('(max-width:1024px)').matches
+  return /android|iphone|ipad|ipod|mobile|tablet/i.test(ua) || isTouch && smallScreen
+}
+if (isMobile()) {
   document.body.innerHTML = `
     <div style="
       background:black;
       color:white;
       height:100vh;
+      width:100vw;
       display:flex;
       flex-direction:column;
       justify-content:center;
@@ -298,9 +305,9 @@ if (/Mobi|Android|iPhone|iPad|Tablet|iPod/i.test(navigator.userAgent)) {
     ">
       <h1 style="font-size:64px;margin:0;">403</h1>
       <p style="font-size:18px;margin-top:12px;">Akses Dilarang</p>
-      <p style="font-size:14px;opacity:.8;">Halaman ini tidak boleh dibuka di perangkat handphone atau tablet</p>
+      <p style="font-size:14px;opacity:.8;">Halaman ini hanya dapat diakses melalui komputer atau laptop</p>
     </div>
-  `;
+  `
 }
 </script>
 </body>
