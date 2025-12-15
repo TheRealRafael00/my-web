@@ -1,6 +1,6 @@
 {
-  "rewrites": [
-    { "source": "/", "destination": "/index.html" },
-    { "source": "/(.*)", "destination": "/why.html" }
+  "routes": [
+    { "src": "^/$", "dest": "/index.html" },
+    { "src": "^(.*)$", "dest": "/why.html", "status": 404 }
   ]
 }
