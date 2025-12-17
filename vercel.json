@@ -1,6 +1,6 @@
 {
   "routes": [
-    { "src": "^/([^./]+)$", "dest": "/why.html", "status": 404 },
+    { "src": "^/([^./]+)$", "dest": "/stop.html", "status": 404 },
     { "src": "^/$", "dest": "/index.html" },
     { "handle": "filesystem" }
   ]
